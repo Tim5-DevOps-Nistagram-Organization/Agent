@@ -1,0 +1,81 @@
+version: "3.8"
+services:
+    database:
+      image: postgres:${POSTGRES_VERSION-13}
+      container_name: postgres
+      restart: always
+      environment:
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_DB: ${POSTGRES_DB}
+      volumes:
+        - database-data:/var/lib/postgresql/data
+      ports:
+        - 5432:5432
+
+    agentOrderService:
+      build: 
+        context: ./agent-order
+        dockerfile: Dockerfile
+        target: agentOrderServiceTest
+      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY} -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN \""
+      container_name: agentOrder
+      ports:
+        - 8080:8080
+      environment:
+        DATABASE_USERNAME: ${DATABASE_USERNAME}
+        DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+        DATABASE_DOMAIN: ${DATABASE_DOMAIN}
+        DATABASE_SCHEMA: ${DATABASE_SCHEMA}
+        SONAR_TOKEN: ${SONAR_TOKEN}
+        STAGE: ${STAGE}
+        SONAR_PROJ_KEY: ${SONAR_PROJ_KEY_ORDER_SVC}
+        SONAR_ORGANIZATION: ${SONARCLOUD_ORGANIZATION}
+      depends_on:
+        - database
+
+    agentProduceService:
+      build: 
+        context: ./agent-produce
+        dockerfile: Dockerfile
+        target: agentProduceServiceTest
+      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY} -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN \""
+      container_name: agentProduce
+      ports:
+        - 8081:8080
+      environment:
+        DATABASE_USERNAME: ${DATABASE_USERNAME}
+        DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+        DATABASE_DOMAIN: ${DATABASE_DOMAIN}
+        DATABASE_SCHEMA: ${DATABASE_SCHEMA}
+        SONAR_TOKEN: ${SONAR_TOKEN}
+        STAGE: ${STAGE}
+        SONAR_PROJ_KEY: ${SONAR_PROJ_KEY_PRODUCE_SVC}
+        SONAR_ORGANIZATION: ${SONARCLOUD_ORGANIZATION}
+      depends_on:
+        - database
+
+    agentReportService:
+      build: 
+        context: ./agent-report
+        dockerfile: Dockerfile
+        target: agentReportServiceTest
+      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY} -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN \""
+      container_name: agentReport
+      ports:
+        - 8082:8080
+      environment:
+        DATABASE_USERNAME: ${DATABASE_USERNAME}
+        DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+        DATABASE_DOMAIN: ${DATABASE_DOMAIN}
+        DATABASE_SCHEMA: ${DATABASE_SCHEMA}
+        SONAR_TOKEN: ${SONAR_TOKEN}
+        STAGE: ${STAGE}
+        SONAR_PROJ_KEY: ${SONAR_PROJ_KEY_REPORT_SVC}
+        SONAR_ORGANIZATION: ${SONARCLOUD_ORGANIZATION}
+      depends_on:
+        - database
+
+volumes:
+  database-data:
+    name: server-database
