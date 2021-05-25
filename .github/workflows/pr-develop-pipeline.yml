@@ -18,8 +18,8 @@ jobs:
           with:
             fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
         
-        - name: Print
-          run: echo ${{ secrets.SONAR_TOKEN_ORDER }} ${{ secrets.SONAR_TOKEN_REPORT }}
+        - name: secrets
+          run: echo ${{ secrets.SECRET }} ${{ secrets.SONAR_TOKEN_ORDER }} ${{ secrets.SONAR_TOKEN_REPORT }}
         
         - name: Build and analyze
           env:
