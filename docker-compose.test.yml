@@ -18,7 +18,7 @@ services:
         context: ./agent-order
         dockerfile: Dockerfile
         target: agentOrderServiceTest
-      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY_ORDER_SVC} -Dsonar.organization=${SONARCLOUD_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN_ORDER \""
+      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY_ORDER_SVC} -Dsonar.organization=${SONARCLOUD_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_TOKEN_ORDER} \""
       container_name: agent-order
       ports:
         - 8080:8080
@@ -36,7 +36,7 @@ services:
         context: ./agent-product
         dockerfile: Dockerfile
         target: agentProductServiceTest
-      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY_PRODUCT_SVC} -Dsonar.organization=${SONARCLOUD_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN_PRODUCT \""
+      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY_PRODUCT_SVC} -Dsonar.organization=${SONARCLOUD_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_TOKEN_PRODUCT} \""
       container_name: agent-product
       ports:
         - 8081:8080
@@ -54,7 +54,7 @@ services:
         context: ./agent-report
         dockerfile: Dockerfile
         target: agentReportServiceTest
-      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY_REPORT_SVC} -Dsonar.organization=${SONARCLOUD_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN_REPORT \""
+      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY_REPORT_SVC} -Dsonar.organization=${SONARCLOUD_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_TOKEN_REPORT} \""
       container_name: agent-report
       ports:
         - 8082:8080
