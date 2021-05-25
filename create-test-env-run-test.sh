@@ -12,7 +12,7 @@ SONAR_TOKEN_PRODUCT=${tokenProduct} SONAR_TOKEN_ORDER=${tokenOrder} SONAR_TOKEN_
 
 is_finished() {
     service="$1"
-    container_id="$(docker-compose ps -q "$service")"
+    container_id="$(docker-compose -f ./docker-compose.test.yml ps -q "$service")"
     health_status="$(docker inspect -f "{{.State.Status}}" "$container_id")"
 
     echo "STATUS: $health_status"
