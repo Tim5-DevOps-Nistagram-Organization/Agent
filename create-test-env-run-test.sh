@@ -1,11 +1,14 @@
 #!/bin/bash
 
-secretToken=${1}  # passed via pipeline
+tokenProduct=${1}
+tokenOrder=${2}
+tokenReport=${3}
+
 
 source ./config/.env.test
 
 
-SONAR_TOKEN=${secretToken} docker-compose -f ./docker-compose.test.yml  --env-file ./config/.env.test up -d
+SONAR_TOKEN_PRODUCT=${tokenProduct} SONAR_TOKEN_ORDER=${tokenOrder} SONAR_TOKEN_REPORT=${tokenReport} docker-compose -f ./docker-compose.test.yml  --env-file ./config/.env.test up -d
 
 is_finished() {
     service="$1"
