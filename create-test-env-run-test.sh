@@ -37,7 +37,7 @@ python ./sonar-maven-breaker.py --testLogs "${servers_logs}" --projectKey ${SONA
 while ! is_finished agent-product-service; do sleep 20; done
 # provera Quality Gate-a i da li je neki od testova pao
 servers_logs=$(docker logs agent-product --tail 20)
-python ./sonar-maven-breaker.py --testLogs "${servers_logs}" --projectKey ${SONAR_PROJ_KEY_PRODUCE_SVC} --branch "develop"
+python ./sonar-maven-breaker.py --testLogs "${servers_logs}" --projectKey ${SONAR_PROJ_KEY_PRODUCT_SVC} --branch "develop"
 
 
 
