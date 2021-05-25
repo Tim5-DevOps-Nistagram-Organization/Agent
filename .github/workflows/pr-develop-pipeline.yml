@@ -3,12 +3,11 @@ name: PR on develop branche pipeline
 on:
   push:
     branches:
-      - configuration/app-properties 
+      - configuration-app-properties 
   pull_request:
     types: [opened, reopened, edited]
     branches:
       - develop
-  workflow_dispatch:
 
 jobs:
     bash_skripta:
