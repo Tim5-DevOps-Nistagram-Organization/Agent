@@ -9,7 +9,7 @@ source ./config/.env.test
 ls
 
 SONAR_TOKEN_PRODUCT=${tokenProduct} SONAR_TOKEN_ORDER=${tokenOrder} SONAR_TOKEN_REPORT=${tokenReport} docker-compose -f ./docker-compose.test.yml  --env-file ./config/.env.test config 
-SONAR_TOKEN_PRODUCT=${tokenProduct} SONAR_TOKEN_ORDER=${tokenOrder} SONAR_TOKEN_REPORT=${tokenReport} docker-compose -f ./docker-compose.test.yml  --env-file ./config/.env.test up -d 
+SONAR_TOKEN_PRODUCT=${tokenProduct} SONAR_TOKEN_ORDER=${tokenOrder} SONAR_TOKEN_REPORT=${tokenReport} docker-compose -f ./docker-compose.test.yml  --env-file ./config/.env.test up  
 
 is_finished() {
     service="$1"
