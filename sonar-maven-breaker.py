@@ -23,6 +23,9 @@ SERVER_LOGS = args.testLogs
 TEST_FAILED = False
 
 
+print("branch: ", PROJCT_BRANCH, "  project_key:", PROJECT_KEY)
+
+
 print("JA SAM SERVER LOGS \n: " + SERVER_LOGS)
 
 

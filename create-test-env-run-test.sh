@@ -15,7 +15,7 @@ is_finished() {
     container_id="$(docker-compose -f ./docker-compose.test.yml ps -q "$service")"
     health_status="$(docker inspect -f "{{.State.Status}}" "$container_id")"
 
-    echo "STATUS: $health_status"
+    echo "STATUS: $health_status, CONTAINER: $service"
 
     if [ "$health_status" = "exited" ]; then
         return 0
