@@ -13,13 +13,13 @@ services:
       ports:
         - 5432:5432
 
-    agentOrderService:
+    agent-order-service:
       build: 
         context: ./agent-order
         dockerfile: Dockerfile
         target: agentOrderServiceTest
       command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY} -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN \""
-      container_name: agentOrder
+      container_name: agent-order
       ports:
         - 8080:8080
       environment:
@@ -34,13 +34,13 @@ services:
       depends_on:
         - database
 
-    agentProduceService:
+    agent-product-service:
       build: 
-        context: ./agent-produce
+        context: ./agent-product
         dockerfile: Dockerfile
-        target: agentProduceServiceTest
+        target: agentProductServiceTest
       command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY} -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN \""
-      container_name: agentProduce
+      container_name: agent-product
       ports:
         - 8081:8080
       environment:
@@ -50,18 +50,18 @@ services:
         DATABASE_SCHEMA: ${DATABASE_SCHEMA}
         SONAR_TOKEN: ${SONAR_TOKEN_PRODUCT}
         STAGE: ${STAGE}
-        SONAR_PROJ_KEY: ${SONAR_PROJ_KEY_PRODUCE_SVC}
+        SONAR_PROJ_KEY: ${SONAR_PROJ_KEY_PRODUCT_SVC}
         SONAR_ORGANIZATION: ${SONARCLOUD_ORGANIZATION}
       depends_on:
         - database
 
-    agentReportService:
+    agent-report-service:
       build: 
         context: ./agent-report
         dockerfile: Dockerfile
         target: agentReportServiceTest
       command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY} -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN \""
-      container_name: agentReport
+      container_name: agent-report
       ports:
         - 8082:8080
       environment:

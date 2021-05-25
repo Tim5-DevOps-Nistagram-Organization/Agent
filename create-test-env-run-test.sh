@@ -8,7 +8,7 @@ tokenReport=${3}
 source ./config/.env.test
 ls
 
-docker-compose -f ./docker-compose.test.yml  --env-file ./config/.env.test up -d 
+SONAR_TOKEN_PRODUCT=${tokenProduct} SONAR_TOKEN_ORDER=${tokenOrder} SONAR_TOKEN_REPORT=${tokenReport} docker-compose -f ./docker-compose.test.yml  --env-file ./config/.env.test up -d 
 
 is_finished() {
     service="$1"
@@ -26,18 +26,18 @@ is_finished() {
 
 ## ================== Test for service: agentOrderService =================
 
-while ! is_finished agentOrderService; do sleep 20; done
+while ! is_finished agent-order-service; do sleep 20; done
 # provera Quality Gate-a i da li je neki od testova pao
-servers_logs=$(docker logs agentOrderService --tail 20)
+servers_logs=$(docker logs agent-order-service --tail 20)
 python ./sonar-maven-breaker.py --testLogs "${servers_logs}" --projectKey ${SONAR_PROJ_KEY_ORDER_SVC} --branch "develop"
 
 
 
 ## ================== Test for service: agentProduceService =================
 
-while ! is_finished agentProduceService; do sleep 20; done
+while ! is_finished agent-product-service; do sleep 20; done
 # provera Quality Gate-a i da li je neki od testova pao
-servers_logs=$(docker logs agentProduceService --tail 20)
+servers_logs=$(docker logs agent-product-service --tail 20)
 python ./sonar-maven-breaker.py --testLogs "${servers_logs}" --projectKey ${SONAR_PROJ_KEY_PRODUCE_SVC} --branch "develop"
 
 
@@ -46,7 +46,7 @@ python ./sonar-maven-breaker.py --testLogs "${servers_logs}" --projectKey ${SONA
 
 while ! is_finished agentReportService; do sleep 20; done
 # provera Quality Gate-a i da li je neki od testova pao
-servers_logs=$(docker logs agentReportService --tail 20)
+servers_logs=$(docker logs agent-report-service --tail 20)
 python ./sonar-maven-breaker.py --testLogs "${servers_logs}" --projectKey ${SONAR_PROJ_KEY_REPORT_SVC} --branch "develop"
 
 
