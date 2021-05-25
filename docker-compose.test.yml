@@ -18,7 +18,7 @@ services:
         context: ./agent-order
         dockerfile: Dockerfile
         target: agentOrderServiceTest
-      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY_ORDER_SVC} -Dsonar.organization=${SONARCLOUD_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_TOKEN_ORDER} \""
+      command: bash -c "echo \"tokkken ${SONAR_TOKEN_ORDER}\" && apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY_ORDER_SVC} -Dsonar.organization=${SONARCLOUD_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_TOKEN_ORDER} \""
       container_name: agent-order
       ports:
         - 8080:8080
