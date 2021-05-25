@@ -2,7 +2,8 @@ name: PR on develop branche pipeline
 
 on:
   push:
-    - configuration/app-properties 
+    branches:
+      - configuration/app-properties 
   pull_request:
     types: [opened, reopened, edited]
     branches:
