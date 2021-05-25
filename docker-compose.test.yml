@@ -18,7 +18,7 @@ services:
         context: ./agent-order
         dockerfile: Dockerfile
         target: agentOrderServiceTest
-      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY} -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN \""
+      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY_ORDER_SVC} -Dsonar.organization=${SONARCLOUD_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN_ORDER \""
       container_name: agent-order
       ports:
         - 8080:8080
@@ -27,10 +27,7 @@ services:
         DATABASE_PASSWORD: ${DATABASE_PASSWORD}
         DATABASE_DOMAIN: ${DATABASE_DOMAIN}
         DATABASE_SCHEMA: ${DATABASE_SCHEMA}
-        SONAR_TOKEN: ${SONAR_TOKEN_ORDER}
         STAGE: ${STAGE}
-        SONAR_PROJ_KEY: ${SONAR_PROJ_KEY_ORDER_SVC}
-        SONAR_ORGANIZATION: ${SONARCLOUD_ORGANIZATION}
       depends_on:
         - database
 
@@ -39,7 +36,7 @@ services:
         context: ./agent-product
         dockerfile: Dockerfile
         target: agentProductServiceTest
-      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY} -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN \""
+      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY_PRODUCT_SVC} -Dsonar.organization=${SONARCLOUD_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN_PRODUCT \""
       container_name: agent-product
       ports:
         - 8081:8080
@@ -48,10 +45,7 @@ services:
         DATABASE_PASSWORD: ${DATABASE_PASSWORD}
         DATABASE_DOMAIN: ${DATABASE_DOMAIN}
         DATABASE_SCHEMA: ${DATABASE_SCHEMA}
-        SONAR_TOKEN: ${SONAR_TOKEN_PRODUCT}
         STAGE: ${STAGE}
-        SONAR_PROJ_KEY: ${SONAR_PROJ_KEY_PRODUCT_SVC}
-        SONAR_ORGANIZATION: ${SONARCLOUD_ORGANIZATION}
       depends_on:
         - database
 
@@ -60,7 +54,7 @@ services:
         context: ./agent-report
         dockerfile: Dockerfile
         target: agentReportServiceTest
-      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY} -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN \""
+      command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY_REPORT_SVC} -Dsonar.organization=${SONARCLOUD_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN_REPORT \""
       container_name: agent-report
       ports:
         - 8082:8080
@@ -69,10 +63,7 @@ services:
         DATABASE_PASSWORD: ${DATABASE_PASSWORD}
         DATABASE_DOMAIN: ${DATABASE_DOMAIN}
         DATABASE_SCHEMA: ${DATABASE_SCHEMA}
-        SONAR_TOKEN: ${SONAR_TOKEN_REPORT}
         STAGE: ${STAGE}
-        SONAR_PROJ_KEY: ${SONAR_PROJ_KEY_REPORT_SVC}
-        SONAR_ORGANIZATION: ${SONARCLOUD_ORGANIZATION}
       depends_on:
         - database
 
