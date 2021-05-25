@@ -28,6 +28,7 @@ services:
         DATABASE_DOMAIN: ${DATABASE_DOMAIN}
         DATABASE_SCHEMA: ${DATABASE_SCHEMA}
         STAGE: ${STAGE}
+        SONAR_TOKEN: ${SONAR_TOKEN_ORDER}
       depends_on:
         - database
 
