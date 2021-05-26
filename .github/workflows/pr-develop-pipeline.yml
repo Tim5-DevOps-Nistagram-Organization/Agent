@@ -17,4 +17,4 @@ jobs:
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
 
-          run: ./create-test-env-run-test.sh ${{ secrets.SONAR_TOKEN_PRODUCT }} ${{ secrets.SONAR_TOKEN_ORDER }} ${{ secrets.SONAR_TOKEN_REPORT }}
+          run: ./create-test-env-run-test.sh ${{ secrets.SONAR_TOKEN_PRODUCT }} ${{ secrets.SONAR_TOKEN_ORDER }} ${{ secrets.SONAR_TOKEN_REPORT }} ${{ github.event.pull_request }}
