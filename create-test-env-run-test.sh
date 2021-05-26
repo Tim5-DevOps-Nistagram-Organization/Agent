@@ -5,7 +5,7 @@ tokenOrder=${2}
 tokenReport=${3}
 pr=${4}
 
-echo pr
+echo pr ${pr}
 source ./config/.env.test
 
 SONAR_TOKEN_PRODUCT=${tokenProduct} SONAR_TOKEN_ORDER=${tokenOrder} SONAR_TOKEN_REPORT=${tokenReport} docker-compose -f ./docker-compose.test.yml  --env-file ./config/.env.test up -d
