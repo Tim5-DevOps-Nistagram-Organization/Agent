@@ -1,15 +1,8 @@
 name: PR on develop branche pipeline
 
 on:
-  push:
-    branches:
-      - configuration-app-properties 
   pull_request:
     types: [opened, reopened, synchronize]
-    branches:
-      - main
-      - develop
-
 
 jobs:
     bash_skripta:
@@ -22,5 +15,4 @@ jobs:
         - name: Build and analyze
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-
-          run: ./create-test-env-run-test.sh ${{ secrets.SONAR_TOKEN_PRODUCT }} ${{ secrets.SONAR_TOKEN_ORDER }} ${{ secrets.SONAR_TOKEN_REPORT }} ${{ secrets.GITHUB_TOKEN }} ${{ github.event.pull_request.title }}
+          run: ./create-test-env-run-test.sh ${{ secrets.SONAR_TOKEN_PRODUCT }} ${{ secrets.SONAR_TOKEN_ORDER }} ${{ secrets.SONAR_TOKEN_REPORT }} ${{ github.event.pull_request.head.ref }} ${{ github.event.pull_request.number }} ${{ github.event.pull_request.base.ref }}
