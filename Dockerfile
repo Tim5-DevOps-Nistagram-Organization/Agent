@@ -3,6 +3,8 @@ FROM maven:3.8.1-jdk-11 AS agentOrderServiceTest
 ARG STAGE=test
 WORKDIR /usr/src/server
 COPY ./agent-order .
+RUN chmod +x /entrypoint-test.sh
+
 
 FROM maven:3.8.1-jdk-11  AS agentOrderServiceBuild
 ARG STAGE=dev
@@ -121,6 +123,20 @@ RUN npm install
 # add app
 COPY ./agent-web/ ./
 RUN npm run build --prod
+
+## run React tests
+FROM node:13.12.0-alpine as frontEndTest
+ARG PROTOCOL="  protocol: 'http',"
+ARG DOMAIN="  domain: 'localhost',"
+ARG PORT="  port: '8080',"
+ARG API="  api: '/api/server'"
+WORKDIR /usr/src
+ENV PATH /app/node_modules/.bin:$PATH
+COPY ./agent-web/package.json ./
+COPY ./agent-web/package-lock.json ./
+RUN npm install
+COPY ./agent-web/ ./
+RUN CI=true npm run test
 
 
 

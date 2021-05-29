@@ -15,7 +15,7 @@ services:
 
     agent-order-service:
       build: 
-        context: ./agent-order
+        context: .
         dockerfile: Dockerfile
         target: agentOrderServiceTest
       command: bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY_ORDER_SVC} -Dsonar.organization=${SONARCLOUD_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_TOKEN_ORDER} -Dsonar.branch.name=${BRANCH_NAME} -Dsonar.pullrequest.key=${PULL_KEY} -Dsonar.pullrequest.branch=${PULL_REQUEST_BRANCH} -Dsonar.pullrequest.base=${BASE} \""
@@ -34,7 +34,7 @@ services:
         
     agent-product-service:
       build: 
-        context: ./agent-product
+        context: .
         dockerfile: Dockerfile
         target: agentProductServiceTest
       command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY_PRODUCT_SVC} -Dsonar.organization=${SONARCLOUD_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_TOKEN_PRODUCT} -Dsonar.branch.name=${BRANCH_NAME} -Dsonar.pullrequest.key=${PULL_KEY} -Dsonar.pullrequest.branch=${PULL_REQUEST_BRANCH} -Dsonar.pullrequest.base=${BASE} \""
@@ -53,7 +53,7 @@ services:
 
     agent-report-service:
       build: 
-        context: ./agent-report
+        context: .
         dockerfile: Dockerfile
         target: agentReportServiceTest
       command:  bash -c "apt-get update && apt-get install -y netcat && ./wait.sh -w \"database:5432\" --command \"mvn -B verify -P${STAGE} sonar:sonar -P${STAGE} -Dsonar.projectKey=${SONAR_PROJ_KEY_REPORT_SVC} -Dsonar.organization=${SONARCLOUD_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_TOKEN_REPORT} -Dsonar.branch.name=${BRANCH_NAME} -Dsonar.pullrequest.key=${PULL_KEY} -Dsonar.pullrequest.branch=${PULL_REQUEST_BRANCH} -Dsonar.pullrequest.base=${BASE} \""
@@ -69,6 +69,14 @@ services:
         GITHUB_TOKEN: ${GITHUB_TOKEN}
       depends_on:
         - database
+
+    # run unit tests on front-end
+    front-end-service:
+      build: 
+        context: .
+        dockerfile: Dockerfile
+        target: frontEndTest
+      container_name: front-end
 
 volumes:
   database-data:
