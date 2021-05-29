@@ -6,7 +6,7 @@ on:
       - infrastructure-ci-pipeline
 
 jobs:
-    bash_skripta:
+    ci_pipeline_job:
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v2
@@ -26,9 +26,6 @@ jobs:
             default_bump: patch
             github_token: ${{ secrets.GITHUB_TOKEN }}
 
-        - name: Echo tag
-          run: echo "Novi tag ${{ steps.tag_version.outputs.new_tag }}"
-
         - name: Create a GitHub prerelease
           uses: actions/create-release@v1
           env:
@@ -39,10 +36,8 @@ jobs:
             body: ${{ steps.tag_version.outputs.changelog }}
             prerelease: true
 
-        # nakon sto prodje staticku analizu koda onda tek krece da build-a image
-        # tj ako prodje Quality Gate
         - name: Build docker image
-          run: ./buildImage.sh "staging" ${{ steps.tag_version.outputs.new_tag }} ${{ secrets.DOCKERHUB_PASSWORD }} ${{ secrets.DOCKERHUB_USERNAME }}
+          run: ./buildImage.sh "prod" ${{ steps.tag_version.outputs.new_tag }} ${{ secrets.DOCKERHUB_PASSWORD }} ${{ secrets.DOCKERHUB_USERNAME }}
 
       
         # pokreni CD pipeline na test-env

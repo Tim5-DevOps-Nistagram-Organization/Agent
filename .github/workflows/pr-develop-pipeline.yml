@@ -5,7 +5,7 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
-    bash_skripta:
+    pr_pipeline_job:
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v2
