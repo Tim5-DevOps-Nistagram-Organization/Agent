@@ -16,8 +16,6 @@ else
 fi
 
 
-sleep 1m
-
 docker ps
 
 
