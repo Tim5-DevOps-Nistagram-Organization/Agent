@@ -1,9 +1,9 @@
-name: CI-develop
+name: CI-main
 
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
     ci_pipeline_job:
@@ -15,37 +15,37 @@ jobs:
         
         - name: Build and analyze
           env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
           run: ./create-test-env-run-test.sh ${{ secrets.SONAR_TOKEN_PRODUCT }} ${{ secrets.SONAR_TOKEN_ORDER }} ${{ secrets.SONAR_TOKEN_REPORT }} ${GITHUB_REF#refs/heads/}
         
         - name: Bump version and push tag
           id: tag_version
           uses: mathieudutour/github-tag-action@v5.5
           with:
+            release_branches: main 
             default_bump: patch
             github_token: ${{ secrets.GITHUB_TOKEN }}
 
-        - name: Create a GitHub prerelease
+        - name: Create a GitHub release
           uses: actions/create-release@v1
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
             tag_name: ${{ steps.tag_version.outputs.new_tag }}
-            release_name: Prerelease ${{ steps.tag_version.outputs.new_tag }}
+            release_name: Release ${{ steps.tag_version.outputs.new_tag }}
             body: ${{ steps.tag_version.outputs.changelog }}
-            prerelease: true
 
         - name: Build docker image
           run: ./buildImage.sh "prod" ${{ steps.tag_version.outputs.new_tag }} ${{ secrets.DOCKERHUB_PASSWORD }} ${{ secrets.DOCKERHUB_USERNAME }}
 
       
-        # pokreni CD pipeline na test-env
+        # pokreni CD pipeline na prod-env
         - name: Emit repository_dispatch
           uses: mvasigh/dispatch-action@main
           with:
             # You should create a personal access token and store it in your repository
             token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-            event_type: ci_develop_pipeline_done
+            event_type: ci_main_pipeline_done
             message: |
               {
                 "version": "${{ steps.tag_version.outputs.new_tag }}"
