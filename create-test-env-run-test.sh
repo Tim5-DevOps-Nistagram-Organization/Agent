@@ -10,9 +10,9 @@ base=${6:-main}
 source ./config/.env.test
 
 if [ "$pullKey" = "0" ]; then
-  SONAR_TOKEN_PRODUCT=${tokenProduct} SONAR_TOKEN_ORDER=${tokenOrder} SONAR_TOKEN_REPORT=${tokenReport} BRANCH_NAME=${branch} COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f ./docker-compose.test.yml  --env-file ./config/.env.test up -d 
+  SONAR_TOKEN_PRODUCT=${tokenProduct} SONAR_TOKEN_ORDER=${tokenOrder} SONAR_TOKEN_REPORT=${tokenReport} BRANCH_NAME=${branch} COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f ./docker-compose.test.yml  --env-file ./config/.env.test up --build -d 
 else
-  SONAR_TOKEN_PRODUCT=${tokenProduct} SONAR_TOKEN_ORDER=${tokenOrder} SONAR_TOKEN_REPORT=${tokenReport} PULL_KEY=${pullKey} PULL_REQUEST_BRANCH=${branch} BASE=${base} COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f ./docker-compose.test.yml  --env-file ./config/.env.test up -d
+  SONAR_TOKEN_PRODUCT=${tokenProduct} SONAR_TOKEN_ORDER=${tokenOrder} SONAR_TOKEN_REPORT=${tokenReport} PULL_KEY=${pullKey} PULL_REQUEST_BRANCH=${branch} BASE=${base} COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f ./docker-compose.test.yml  --env-file ./config/.env.test up --build -d
 fi
 
 
