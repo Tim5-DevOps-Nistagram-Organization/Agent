@@ -135,7 +135,6 @@ COPY ./agent-web/package.json ./
 COPY ./agent-web/package-lock.json ./
 RUN npm install
 COPY ./agent-web/ ./
-RUN CI=true npm run test
 
 
 

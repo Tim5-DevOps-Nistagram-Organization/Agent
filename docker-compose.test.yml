@@ -77,6 +77,7 @@ services:
         dockerfile: Dockerfile
         target: frontEndTest
       container_name: front-end
+      command: bash -c "CI=true npm run test"
 
 volumes:
   database-data:
