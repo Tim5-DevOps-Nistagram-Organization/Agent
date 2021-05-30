@@ -3,7 +3,6 @@ FROM maven:3.8.1-jdk-11 AS agentOrderServiceTest
 ARG STAGE=test
 WORKDIR /usr/src/server
 COPY ./agent-order .
-RUN chmod +x /entrypoint-test.sh
 
 
 FROM maven:3.8.1-jdk-11  AS agentOrderServiceBuild
@@ -136,7 +135,6 @@ COPY ./agent-web/package.json ./
 COPY ./agent-web/package-lock.json ./
 RUN npm install
 COPY ./agent-web/ ./
-RUN CI=true npm run test
 
 
 

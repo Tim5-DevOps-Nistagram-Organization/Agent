@@ -13,8 +13,9 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>agent-report</name>
     <description>Report service for Agent</description>
-    <properties>
+   <properties>
         <java.version>11</java.version>
+        <spring-cloud.version>2020.0.3-SNAPSHOT</spring-cloud.version>
     </properties>
     <dependencies>
         <dependency>
@@ -34,8 +35,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
         <dependency>
@@ -80,28 +81,10 @@
                     <artifactId>spring-cloud-starter-consul-discovery</artifactId>
                 </dependency>
                 <dependency>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-openfeign</artifactId>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
                 </dependency>
             </dependencies>
-            <repositories>
-                <repository>
-                    <id>spring-snapshots</id>
-                    <name>Spring Snapshots</name>
-                    <url>https://repo.spring.io/snapshot</url>
-                    <releases>
-                        <enabled>false</enabled>
-                    </releases>
-                </repository>
-                <repository>
-                    <id>spring-milestones</id>
-                    <name>Spring Milestones</name>
-                    <url>https://repo.spring.io/milestone</url>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </repository>
-            </repositories>
         </profile>
         <profile>
             <id>test</id>
@@ -110,6 +93,13 @@
                 <profileActive>test</profileActive>
                 <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
             <build>
                 <plugins>
                     <plugin>
@@ -154,28 +144,10 @@
                     <artifactId>spring-cloud-starter-consul-discovery</artifactId>
                 </dependency>
                 <dependency>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-openfeign</artifactId>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
                 </dependency>
             </dependencies>
-            <repositories>
-                <repository>
-                    <id>spring-snapshots</id>
-                    <name>Spring Snapshots</name>
-                    <url>https://repo.spring.io/snapshot</url>
-                    <releases>
-                        <enabled>false</enabled>
-                    </releases>
-                </repository>
-                <repository>
-                    <id>spring-milestones</id>
-                    <name>Spring Milestones</name>
-                    <url>https://repo.spring.io/milestone</url>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </repository>
-            </repositories>
         </profile>
     </profiles>
 
@@ -196,4 +168,22 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
