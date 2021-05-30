@@ -1,10 +1,8 @@
 import { combineReducers } from "redux";
 import isAgent from "./isAgentReducer";
-import apiCallStatus from "./apiStatusReducer";
 
 const rootReducer = combineReducers({
-    isAgent,
-    apiCallStatus
+  isAgent,
 });
 
 export default rootReducer;
