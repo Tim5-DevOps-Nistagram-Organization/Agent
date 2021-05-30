@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import PropTypes, { func, object } from "prop-types";
+import PropTypes from "prop-types";
 
 const GuardedRoute = ({
   component: Component,
@@ -28,8 +28,7 @@ GuardedRoute.propTypes = {
   isAgent: PropTypes.bool.isRequired,
   itIsAgent: PropTypes.bool,
   redirect: PropTypes.string.isRequired,
-  // todo: izmeniti da bude samo object
-  component: PropTypes.oneOfType([object, func]).isRequired,
+  component: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
