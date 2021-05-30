@@ -60,14 +60,6 @@ services:
       container_name: front-end
       command: bash -c "CI=true npm run test"
 
-    # run unit tests on front-end
-    front-end-service:
-      build: 
-        context: .
-        dockerfile: Dockerfile
-        target: frontEndTest
-      container_name: front-end
-
 volumes:
   database-data:
     name: server-database
