@@ -21,8 +21,6 @@ services:
         context: .
         dockerfile: Dockerfile
         target: consulServer
-      ports: 
-        - "8500:8500"
       networks:
         static-network:
           ipv4_address: 172.16.0.2
