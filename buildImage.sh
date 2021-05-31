@@ -15,39 +15,32 @@ APP_IMAGE_NAME_AGENT_OREDER=${DOCKERHUB_USERNAME}/${APP_NAME_AGENT_OREDER}:${VER
 APP_IMAGE_NAME_AGENT_REPORT=${DOCKERHUB_USERNAME}/${APP_NAME_AGENT_REPORT}:${VERSION}
 APP_IMAGE_NAME_GATEWAY=${DOCKERHUB_USERNAME}/${APP_NAME_AGENT_GATEWAY}:${VERSION}
 
-# TODO: ovo isto zavisi od ENV varijable a ja sam zakucao ovako jer ne mogu da push na njegov docker hub
 DOCKER_BUILDKIT=1 docker build \
 -t "${APP_IMAGE_NAME_AGENT_PRODUCT}" \
---target agentProductServiceRuntime \
+--target agentProductServiceRuntimeProd \
 --build-arg STAGE=${STAGE} \
---build-arg DOMAIN=" domain: '${APP_NAME_AGENT_PRODUCT}.herokuapp.com'," \
---build-arg PORT="  port: ''," \
 --no-cache \
 .
 
 DOCKER_BUILDKIT=1 docker build \
 -t "${APP_IMAGE_NAME_AGENT_OREDER}" \
---target agentOrderServiceRuntime \
+--target agentOrderServiceRuntimeProd \
 --build-arg STAGE=${STAGE} \
---build-arg DOMAIN=" domain: '${APP_NAME_AGENT_OREDER}.herokuapp.com'," \
---build-arg PORT="  port: ''," \
 --no-cache \
 .
 
 DOCKER_BUILDKIT=1 docker build \
 -t "${APP_IMAGE_NAME_AGENT_REPORT}" \
---target agentReportServiceRuntime \
+--target agentReportServiceRuntimeProd \
 --build-arg STAGE=${STAGE} \
---build-arg DOMAIN=" domain: '${APP_NAME_AGENT_REPORT}.herokuapp.com'," \
---build-arg PORT="  port: ''," \
 --no-cache \
 .
 
 DOCKER_BUILDKIT=1 docker build \
 -t "${APP_IMAGE_NAME_GATEWAY}" \
---target gatewayRuntime \
+--target gatewayRuntimeProd \
 --build-arg STAGE=${STAGE} \
---build-arg DOMAIN=" domain: '${APP_NAME_AGENT_REPORT}.herokuapp.com'," \
+--build-arg DOMAIN=" domain: '${APP_IMAGE_NAME_GATEWAY}.herokuapp.com'," \
 --build-arg PORT="  port: ''," \
 --no-cache \
 .

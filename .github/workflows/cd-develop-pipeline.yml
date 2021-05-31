@@ -3,7 +3,6 @@ name: CD-develop-pipeline
 on:
   workflow_dispatch:
     
-  
   repository_dispatch:
     types: [ci_develop_pipeline_done]
   
