@@ -12,8 +12,7 @@ jobs:
         - name: Testing 
           run: |
             cd deployment
-            echo "Hello ${{ github.event.inputs.name }}!"
-          #run: echo ${{ github.event.client_payload.message.version }}
+            echo ${{ github.event.client_payload.message.version }}
         - name: Delete old servers from Heroku staging env
           run: ./destroy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} ${{ github.event.client_payload.message.version }} pgb1 
         - name: Deploy to staging env on Heroku
