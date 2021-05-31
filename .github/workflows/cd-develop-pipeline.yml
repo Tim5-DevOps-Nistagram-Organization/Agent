@@ -1,8 +1,8 @@
 name: CD-develop-pipeline
 
 on:
-  repository_dispatch:
-    types: [ci_develop_pipeline_done]
+  # repository_dispatch:
+  #   types: [ci_develop_pipeline_done]
 
   workflow_dispatch:
     inputs:
