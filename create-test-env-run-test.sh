@@ -16,9 +16,6 @@ else
 fi
 
 
-docker ps
-
-
 is_finished() {
     service="$1"
     container_id="$(docker-compose -f ./docker-compose.test.yml ps -q "$service")"

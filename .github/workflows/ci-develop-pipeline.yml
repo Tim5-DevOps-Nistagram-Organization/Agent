@@ -3,7 +3,8 @@ name: CI-develop
 on:
   push:
     branches:
-      - develop
+      # - develop
+      - feature/cd-pipeline-develop
 
 jobs:
     ci_pipeline_job:
