@@ -1,2 +1,1 @@
-FROM dusanbucan/agentorder:v0.0.4-dev.0
-CMD java -jar agent-order.jar --server.port=$PORT
+FROM dusanbucan/agentorder:v0.0.6-dev.0
