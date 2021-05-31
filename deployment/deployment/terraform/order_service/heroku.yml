@@ -1,3 +1,5 @@
 build:
   docker:
     web: Dockerfile
+
+run: java -jar agent-order.jar --server.port=$PORT

@@ -1,3 +1,4 @@
 build:
   docker:
     web: Dockerfile
+run: java -jar agent-report.jar --server.port=$PORT

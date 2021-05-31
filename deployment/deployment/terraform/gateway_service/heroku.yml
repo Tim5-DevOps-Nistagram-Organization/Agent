@@ -1,3 +1,5 @@
 build:
   docker:
     web: Dockerfile
+
+run: java -jar gateway.jar --server.port=$PORT

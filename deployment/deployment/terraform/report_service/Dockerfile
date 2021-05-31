@@ -1,2 +1,1 @@
-FROM dusanbucan/agentreport:v0.0.4-dev.0
-CMD java -jar agent-report.jar --server.port=$PORT
+FROM dusanbucan/agentreport:v0.0.6-dev.0
