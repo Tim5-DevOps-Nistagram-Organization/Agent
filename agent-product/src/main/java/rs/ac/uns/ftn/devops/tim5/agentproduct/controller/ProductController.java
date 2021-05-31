@@ -9,6 +9,7 @@ import rs.ac.uns.ftn.devops.tim5.agentproduct.exception.ResourceNotFoundExceptio
 import rs.ac.uns.ftn.devops.tim5.agentproduct.mapper.ProductMapper;
 import rs.ac.uns.ftn.devops.tim5.agentproduct.service.ProductService;
 
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -36,13 +37,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> create(@RequestBody ProductDTO productDTO) throws ResourceNotFoundException {
+    public ResponseEntity<ProductDTO> create(@Valid @RequestBody ProductDTO productDTO) throws ResourceNotFoundException {
         return new ResponseEntity<>(
                 ProductMapper.toDTO(productService.saveProduct(ProductMapper.toEntity(productDTO))), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<ProductDTO> update(@RequestBody ProductDTO productDTO) throws ResourceNotFoundException {
+    public ResponseEntity<ProductDTO> update(@Valid @RequestBody ProductDTO productDTO) throws ResourceNotFoundException {
         return new ResponseEntity<>(
                 ProductMapper.toDTO(productService.updateProduct(ProductMapper.toEntity(productDTO))), HttpStatus.OK);
     }

@@ -2,6 +2,7 @@ package rs.ac.uns.ftn.devops.tim5.agentproduct.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import rs.ac.uns.ftn.devops.tim5.agentproduct.exception.ResourceNotFoundException;
 import rs.ac.uns.ftn.devops.tim5.agentproduct.model.Product;
 import rs.ac.uns.ftn.devops.tim5.agentproduct.repository.ProductRepository;
@@ -33,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product saveProduct(Product product) throws ResourceNotFoundException {
         product.setDeleted(false);
         product.setImage(product.getImage() != null ? imageService.getImage(product.getImage().getId()) : null);
@@ -40,6 +42,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product updateProduct(Product productToUpdate) throws ResourceNotFoundException {
         Product product = getProduct(productToUpdate.getId());
         product.setName(productToUpdate.getName());
@@ -52,6 +55,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public void deleteProduct(Long id) throws ResourceNotFoundException {
         Product product = getProduct(id);
         repository.delete(product);
