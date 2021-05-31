@@ -1,8 +1,12 @@
 name: CD-develop-pipeline
 
 on:
+  workflow_dispatch:
+    
+  
   repository_dispatch:
     types: [ci_develop_pipeline_done]
+  
 
 jobs:
     cd_pipeline_job:
@@ -13,9 +17,9 @@ jobs:
           run: echo "Hello ${{ github.event.inputs.name }}!"
           #run: echo ${{ github.event.client_payload.message.version }}
         - name: Delete old servers from Heroku staging env
-          run: ./destroy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} ${{ github.event.client_payload.message.version }} pgb1
-          #run: ./destroy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} ${{ github.event.inputs.name }} pgb1 
+          #run: ./destroy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} ${{ github.event.client_payload.message.version }} pgb1
+          run: ./destroy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} "v0.0.4-dev.0" pgb1 
         - name: Deploy to staging env on Heroku
-          run: ./deploy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} ${{ github.event.client_payload.message.version }} pgb1
-          #run: ./deploy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} ${{ github.event.inputs.name }} pgb1 
+          #run: ./deploy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} ${{ github.event.client_payload.message.version }} pgb1
+          run: ./deploy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} "v0.0.4-dev.0" pgb1 
           
