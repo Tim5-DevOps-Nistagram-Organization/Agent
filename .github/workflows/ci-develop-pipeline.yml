@@ -3,9 +3,8 @@ name: CI-develop
 on:
   push:
     branches:
-      # - develop
-      - feature/cd-pipeline-develop
-
+      - develop
+      
 jobs:
     ci_pipeline_job:
       runs-on: ubuntu-latest
