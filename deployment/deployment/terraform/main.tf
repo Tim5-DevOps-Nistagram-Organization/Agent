@@ -143,10 +143,6 @@ resource "heroku_app_config_association" "gateway_service" {
   vars = heroku_config.prod.vars
 }
 
-resource "heroku_addon_attachment" "database2" {
-  app_id  = heroku_app.gateway_service.id
-  addon_id = heroku_addon.database.id
-}
 
 
 

@@ -32,27 +32,27 @@ DATABASE_URL=$(heroku config:get DATABASE_URL --app "$TERRAFORM_PG_BACKEND") && 
 
 # prepare Dockerfile-s
 
-# rm -rf ./gateway_service/Dockerfile
-# rm -rf ./order_service/Dockerfile
-# rm -rf ./product_service/Dockerfile
-# rm -rf ./report_service/Dockerfile
+rm -rf ./gateway_service/Dockerfile
+rm -rf ./order_service/Dockerfile
+rm -rf ./product_service/Dockerfile
+rm -rf ./report_service/Dockerfile
 
 
-# echo "FROM $APP_IMAGE_NAME_AGENT_PRODUCT" >> ./product_service/Dockerfile
-# #echo "CMD java -jar agent-product.jar --server.port=$PORT" >> ./product_service/Dockerfile
-# cat ./product_service/Dockerfile
+echo "FROM $APP_IMAGE_NAME_AGENT_PRODUCT" >> ./product_service/Dockerfile
+#echo "CMD java -jar agent-product.jar --server.port=$PORT" >> ./product_service/Dockerfile
+cat ./product_service/Dockerfile
 
-# echo "FROM $APP_IMAGE_NAME_AGENT_OREDER" >> ./order_service/Dockerfile
-# #echo "CMD java -jar agent-order.jar --server.port=$PORT" >> ./order_service/Dockerfile
-# cat ./order_service/Dockerfile
+echo "FROM $APP_IMAGE_NAME_AGENT_OREDER" >> ./order_service/Dockerfile
+#echo "CMD java -jar agent-order.jar --server.port=$PORT" >> ./order_service/Dockerfile
+cat ./order_service/Dockerfile
 
-# echo "FROM $APP_IMAGE_NAME_AGENT_REPORT" >> ./report_service/Dockerfile
-# #echo "CMD java -jar agent-report.jar --server.port=$PORT" >> ./report_service/Dockerfile
-# cat ./report_service/Dockerfile
+echo "FROM $APP_IMAGE_NAME_AGENT_REPORT" >> ./report_service/Dockerfile
+#echo "CMD java -jar agent-report.jar --server.port=$PORT" >> ./report_service/Dockerfile
+cat ./report_service/Dockerfile
 
-# echo "FROM $APP_IMAGE_NAME_GATEWAY" >> ./gateway_service/Dockerfile
-# #echo "CMD java -jar gateway.jar --server.port=$PORT" >> ./gateway_service/Dockerfile
-# cat ./gateway_service/Dockerfile
+echo "FROM $APP_IMAGE_NAME_GATEWAY" >> ./gateway_service/Dockerfile
+#echo "CMD java -jar gateway.jar --server.port=$PORT" >> ./gateway_service/Dockerfile
+cat ./gateway_service/Dockerfile
  
 
 
