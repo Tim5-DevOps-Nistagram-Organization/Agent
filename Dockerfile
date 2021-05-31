@@ -192,8 +192,8 @@ CMD ["/entrypoint.sh"]
 
 FROM openjdk:8-jdk-alpine AS gatewayRuntimeProd
 WORKDIR /app
-COPY --from=gatewayBuild /usr/src/server/target/gateway-1.0.0.jar gateway
-CMD java -jar gateway
+COPY --from=gatewayBuild /usr/src/server/target/gateway-1.0.0.jar gateway.jar
+CMD java -jar gateway.jar
 
 
 
