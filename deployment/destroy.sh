@@ -24,7 +24,7 @@ APP_IMAGE_NAME_GATEWAY=${DOCKERHUB_USERNAME}/${APP_NAME_AGENT_GATEWAY}:${VERSION
 
 # here we use it for running terraform scripts to deploy on Heroku staging and prod env
 # we override CMD but ENTRYPOINT probably does heroku login
-docker create \
+DOCKER_BUILDKIT=1 docker create \
   --workdir /deployment \
   --entrypoint sh \
   --env APP_IMAGE_NAME_AGENT_PRODUCT="${APP_IMAGE_NAME_AGENT_PRODUCT}" \

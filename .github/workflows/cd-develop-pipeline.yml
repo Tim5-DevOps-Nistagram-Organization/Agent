@@ -14,7 +14,9 @@ jobs:
       steps:
         - uses: actions/checkout@v2
         - name: Testing 
-          run: echo "Hello ${{ github.event.inputs.name }}!"
+          run: | 
+            echo "Hello ${{ github.event.inputs.name }}!"
+            cd deployment || exit
           #run: echo ${{ github.event.client_payload.message.version }}
         - name: Delete old servers from Heroku staging env
           #run: ./destroy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} ${{ github.event.client_payload.message.version }} pgb1
