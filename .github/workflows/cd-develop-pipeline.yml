@@ -1,29 +1,21 @@
 name: CD-develop-pipeline
 
 on:
-  workflow_dispatch:
-    
   repository_dispatch:
     types: [ci_develop_pipeline_done]
   
-
-  workflow_dispatch:
-    inputs:
-      name: "verzija docker images"
-      required: true
-      default: 'v0.0.4-dev.0'
-
 jobs:
     cd_pipeline_job:
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v2
         - name: Testing 
-          run: echo "Hello ${{ github.event.inputs.name }}!"
+          run: |
+            cd deployment
+            echo "Hello ${{ github.event.inputs.name }}!"
           #run: echo ${{ github.event.client_payload.message.version }}
         - name: Delete old servers from Heroku staging env
           run: ./destroy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} ${{ github.event.client_payload.message.version }} pgb1 
         - name: Deploy to staging env on Heroku
-          #run: ./deploy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} ${{ github.event.client_payload.message.version }} pgb1
           run: ./deploy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} ${{ github.event.inputs.name }} pgb1 
           
