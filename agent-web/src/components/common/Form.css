@@ -1,0 +1,14 @@
+form {
+    width: 33%;
+    margin-left: 33%;
+    margin-right: 33%;
+}
+.field {
+    width: 100%;
+}
+pre {
+    white-space: pre-line;
+    font-family: "-apple-system", "BlinkMacSystemFont", '"Segoe UI"', "Roboto",
+    '"Helvetica Neue"', "Arial", "sans-serif", '"Apple Color Emoji"',
+    '"Segoe UI Emoji"', '"Segoe UI Symbol"';
+}
