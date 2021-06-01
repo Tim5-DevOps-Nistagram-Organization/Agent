@@ -12,7 +12,7 @@ COPY ./agent-order .
 RUN mvn package -P${STAGE} -DskipTests
 
 
-FROM openjdk:11.0-jdk as agentOrderServiceRuntime
+FROM openjdk:11.0-jdk as agentOrderServiceRuntimeDev
 COPY ./agent-order/entrypoint.sh /entrypoint.sh
 COPY ./agent-order/consul-client.json /consul-config/consul-client.json
 RUN apt-get install -y \
@@ -34,6 +34,12 @@ CMD ["/entrypoint.sh"]
 
 
 
+FROM openjdk:11.0-jdk as agentOrderServiceRuntimeProd
+COPY --from=agentOrderServiceBuild /usr/src/server/target/*.jar agent-order.jar
+CMD java -jar agent-order.jar
+
+
+
 ## =================> STAGES for ProductService <=======================
 FROM maven:3.8.1-jdk-11 AS agentProductServiceTest
 ARG STAGE=test
@@ -46,7 +52,7 @@ WORKDIR /usr/src/server
 COPY ./agent-product .
 RUN mvn package -P${STAGE} -DskipTests
 
-FROM openjdk:11.0-jdk as agentProductServiceRuntime
+FROM openjdk:11.0-jdk as agentProductServiceRuntimeDev
 COPY ./agent-product/entrypoint.sh /entrypoint.sh
 COPY ./agent-product/consul-client.json /consul-config/consul-client.json
 RUN apt-get install -y \
@@ -66,6 +72,13 @@ COPY --from=agentProductServiceBuild /usr/src/server/target/*.jar agent-product.
 EXPOSE 8080
 CMD ["/entrypoint.sh"]
 
+
+
+FROM openjdk:11.0-jdk as agentProductServiceRuntimeProd
+COPY --from=agentProductServiceBuild /usr/src/server/target/*.jar agent-product.jar
+CMD java -jar agent-product.jar
+
+
 ## =================> STAGES for ReportService <=======================
 
 FROM maven:3.8.1-jdk-11 AS agentReportServiceTest
@@ -79,7 +92,7 @@ WORKDIR /usr/src/server
 COPY ./agent-report .
 RUN mvn package -P${STAGE} -DskipTests
 
-FROM openjdk:11.0-jdk as agentReportServiceRuntime
+FROM openjdk:11.0-jdk as agentReportServiceRuntimeDev
 COPY ./agent-report/entrypoint.sh /entrypoint.sh
 COPY ./agent-report/consul-client.json /consul-config/consul-client.json
 RUN apt-get install -y \
@@ -100,10 +113,16 @@ EXPOSE 8080
 CMD ["/entrypoint.sh"]
 
 
+
+FROM openjdk:11.0-jdk as agentReportServiceRuntimeProd
+COPY --from=agentReportServiceBuild /usr/src/server/target/*.jar agent-report.jar
+CMD java -jar agent-report.jar
+
+
 ## =================> STAGES for FrontEnd <=====================
 FROM node:13.12.0-alpine as frontEndBuild
 
-ARG PROTOCOL="  protocol: 'http',"
+ARG PROTOCOL="  protocol: 'https',"
 ARG DOMAIN="  domain: 'localhost',"
 ARG PORT="  port: '8080',"
 ARG API="  api: '/api/server'"
@@ -140,15 +159,16 @@ COPY ./agent-web/ ./
 
 ## =================> STAGES for Gateway <=======================
 FROM maven:3.6.3-ibmjava-8-alpine  AS gatewayBuild
+ARG STAGE=dev
 WORKDIR /usr/src/server
 COPY ./gateway .
 COPY --from=frontEndBuild /usr/src/build/index.html ./src/main/resources/
 COPY --from=frontEndBuild /usr/src/build/asset-manifest.json ./src/main/resources/
 COPY --from=frontEndBuild /usr/src/build/ ./src/main/resources/static
-RUN mvn package -DskipTests
+RUN mvn package -P${STAGE} -DskipTests 
 
 
-FROM openjdk:8-jdk-alpine AS gatewayRuntime
+FROM openjdk:8-jdk-alpine AS gatewayRuntimeDev
 WORKDIR /app
 COPY ./gateway/entrypoint.sh /entrypoint.sh
 COPY ./gateway/consul-client.json /consul-config/consul-client.json
@@ -170,8 +190,16 @@ CMD ["/entrypoint.sh"]
 
 
 
+FROM openjdk:8-jdk-alpine AS gatewayRuntimeProd
+WORKDIR /app
+COPY --from=gatewayBuild /usr/src/server/target/gateway-1.0.0.jar gateway.jar
+CMD java -jar gateway.jar
+
+
+
+
 ## =================> STAGES for Consul server <=======================
-FROM consul:1.9.5 as consulServer
+FROM consul:1.9.5 as consulServerDev
 COPY ./consul-server/entrypoint.sh /entrypoint.sh
 COPY ./consul-server /consul/config/
 RUN chmod +x /entrypoint.sh
