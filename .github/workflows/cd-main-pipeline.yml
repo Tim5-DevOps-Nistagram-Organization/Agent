@@ -26,5 +26,5 @@ jobs:
         - name: Deploy to staging env on Heroku
           run: |
             cd deployment || exit
-            ./deploy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.inputs.name }} pgb2 prod
+            ./deploy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.client_payload.message.version }} pgb2 prod
           
