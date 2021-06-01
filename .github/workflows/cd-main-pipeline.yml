@@ -21,14 +21,10 @@ jobs:
             ls
         - name: Delete old servers from Heroku staging env
           run: |
-            ls
             cd deployment || exit
-            ls
-            ./destroy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.client_payload.message.version }} pgb1 prod
+            ./destroy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.client_payload.message.version }} pgb2 prod
         - name: Deploy to staging env on Heroku
           run: |
-            ls
             cd deployment || exit
-            ls
-            ./deploy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.inputs.name }} pgb1 prod
+            ./deploy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.inputs.name }} pgb2 prod
           
