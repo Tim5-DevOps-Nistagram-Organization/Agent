@@ -60,7 +60,7 @@ terraform init -backend-config="conn_str=$DATABASE_URL"
 
 echo "Konektovao sam se na bazu i sad cu da napravim infrastruktru!"
 
-terraform apply -auto-approve -var product_app_name="agentproduct" \
-                              -var order_app_name="agentorder"   \
-                              -var report_app_name="agentreport" \
-                              -var gateway_app_name="agentgateway"
+terraform apply -auto-approve -var product_app_name="$APP_NAME_AGENT_PRODUCT" \
+                              -var order_app_name="$APP_NAME_AGENT_OREDER"   \
+                              -var report_app_name="$APP_NAME_AGENT_REPORT" \
+                              -var gateway_app_name="$APP_NAME_AGENT_GATEWAY"
