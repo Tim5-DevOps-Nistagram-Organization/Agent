@@ -22,5 +22,5 @@ jobs:
         - name: Delete old servers from Heroku staging env
           run: ./destroy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} ${{ github.event.client_payload.message.version }} pgb1 
         - name: Deploy to staging env on Heroku
-          run: ./deploy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} ${{ github.event.inputs.name }} pgb1 
+          run: ./deploy.sh dusanbzr@gmail.com ${{secrets.HEROKU_STAGING_TOKEN}} ${{ github.event.client_payload.message.version }} pgb1 
           
