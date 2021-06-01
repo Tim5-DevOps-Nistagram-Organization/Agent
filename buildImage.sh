@@ -50,4 +50,3 @@ docker push "$APP_IMAGE_NAME_AGENT_PRODUCT"
 docker push "$APP_IMAGE_NAME_AGENT_OREDER"
 docker push "$APP_IMAGE_NAME_AGENT_REPORT"
 docker push "$APP_IMAGE_NAME_GATEWAY"
-
