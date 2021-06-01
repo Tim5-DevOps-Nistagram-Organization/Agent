@@ -6,12 +6,18 @@ import { newProduct } from "../../model/Product";
 import ProductAddEdit from "./ProductAddEdit";
 import { Button } from "@material-ui/core";
 import ProductDelete from "./ProductDelete";
+import ProductAddToCart from "./ProductAddToCart";
+import { Item, newItem } from "../../model/Item";
+import { cartAddItem } from "../../redux/actions/cartActions";
 
-function ProductManagement({ isAgent }) {
+function ProductManagement({ isAgent, cart, cartAddItem }) {
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [openAddToCart, setOpenAddToCart] = useState(false);
   const [product, setProduct] = useState(newProduct);
+  const [item, setItem] = useState(newItem);
   const [errors, setErrors] = useState({});
+  const [errorItem, setErrorItem] = useState("");
   const [saving, setSaving] = useState(false);
   const [image, setImage] = useState({});
   const [imageUploaded, setImageUploaded] = useState(true);
@@ -58,10 +64,6 @@ function ProductManagement({ isAgent }) {
     },
   ];
 
-  function handleAddToCart(product) {
-    console.log("cart " + product.name);
-  }
-
   function handleAddButton() {
     setProduct(newProduct);
     openAddEdit();
@@ -78,6 +80,11 @@ function ProductManagement({ isAgent }) {
   function handleDeleteButton(product) {
     setProduct(product);
     setOpenDelete(true);
+  }
+
+  function handleAddToCartButton(product) {
+    setItem(new Item(product, 1));
+    setOpenAddToCart(true);
   }
 
   function handleChange(event) {
@@ -143,6 +150,26 @@ function ProductManagement({ isAgent }) {
     setImageUploaded(true);
   }
 
+  function handleChangeItem(event) {
+    const { name, value } = event.target;
+    setItem((prevValue) => ({ ...prevValue, [name]: value }));
+  }
+
+  function handleAddToCart() {
+    let error = "";
+    if (item.quantity < 1) {
+      error = "Quantity min is 1.";
+    } else if (item.quantity > item.product.onStock) {
+      error = "Quantity of product is not available.";
+    }
+    setErrorItem(error);
+
+    if (error !== "") return;
+
+    cartAddItem(item);
+    setOpenAddToCart(false);
+  }
+
   return (
     <>
       <h2>Products</h2>
@@ -159,9 +186,10 @@ function ProductManagement({ isAgent }) {
       <ProductList
         products={products}
         isAgent={isAgent}
+        cart={cart}
         onEditButton={handleEditButton}
         onDeleteButton={handleDeleteButton}
-        onAddToCart={handleAddToCart}
+        onAddToCart={handleAddToCartButton}
       />
       <ProductAddEdit
         open={open}
@@ -181,21 +209,35 @@ function ProductManagement({ isAgent }) {
         onClose={() => setOpenDelete(false)}
         onDelete={handleDelete}
       />
+      <ProductAddToCart
+        open={openAddToCart}
+        item={item}
+        error={errorItem}
+        saving={saving}
+        onClose={() => setOpenAddToCart(false)}
+        onSubmit={handleAddToCart}
+        onChange={handleChangeItem}
+      />
     </>
   );
 }
 
 ProductManagement.propTypes = {
   isAgent: PropTypes.bool.isRequired,
+  cart: PropTypes.array.isRequired,
+  cartAddItem: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     isAgent: state.isAgent,
+    cart: state.cart,
   };
 }
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  cartAddItem,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductManagement);
 //todo dodati za sliku, i dodati servise kasnije, reducer
