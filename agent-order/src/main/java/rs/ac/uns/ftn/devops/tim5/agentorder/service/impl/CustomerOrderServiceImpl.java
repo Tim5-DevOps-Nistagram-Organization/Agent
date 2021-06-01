@@ -30,10 +30,10 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
         for (Item item : order.getItems()) {
             Product product = productService.getProduct(item.getProduct().getId());
             if (product.getOnStock() >= item.getQuantity()) {
-                item.setPrice(product.getPrice());
+                item.setPrice(item.getQuantity() * product.getPrice());
                 item.setProduct(product);
                 product.setOnStock(product.getOnStock() - item.getQuantity());
-                sum += item.getQuantity() * item.getPrice();
+                sum += item.getPrice();
             } else {
                 throw new ProductNotAvailable(product.getName());
             }
