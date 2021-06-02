@@ -20,7 +20,7 @@ services:
       build:
         context: .
         dockerfile: Dockerfile
-        target: consulServer
+        target: consulServerDev
       ports: 
         - "8500:8500"
       networks:
@@ -32,7 +32,9 @@ services:
       build:
         context: .
         dockerfile: Dockerfile
-        target: gatewayRuntime
+        target: gatewayRuntimeDev
+      environment:
+        STAGE: ${STAGE}
       ports: 
         - "8080:8080"
       networks:
@@ -45,7 +47,7 @@ services:
       build: 
         context: .
         dockerfile: Dockerfile
-        target: agentOrderServiceRuntime
+        target: agentOrderServiceRuntimeDev
       container_name: agent-order
       environment:
         DATABASE_USERNAME: ${DATABASE_USERNAME}
@@ -63,7 +65,7 @@ services:
       build: 
         context: .
         dockerfile: Dockerfile
-        target: agentProductServiceRuntime
+        target: agentProductServiceRuntimeDev
       container_name: agent-product
       environment:
         DATABASE_USERNAME: ${DATABASE_USERNAME}
@@ -81,7 +83,7 @@ services:
       build: 
         context: .
         dockerfile: Dockerfile
-        target: agentReportServiceRuntime
+        target: agentReportServiceRuntimeDev
       container_name: agent-report
       environment:
         DATABASE_USERNAME: ${DATABASE_USERNAME}

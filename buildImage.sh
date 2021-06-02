@@ -4,6 +4,7 @@ STAGE=${1}
 VERSION=${2}
 DOCKERHUB_PASSWORD=${3}
 DOCKERHUB_USERNAME=${4:-dusanbucan}
+NAME=${5:-staging}
 
 APP_NAME_AGENT_PRODUCT=agentproduct
 APP_NAME_AGENT_OREDER=agentorder
@@ -15,40 +16,37 @@ APP_IMAGE_NAME_AGENT_OREDER=${DOCKERHUB_USERNAME}/${APP_NAME_AGENT_OREDER}:${VER
 APP_IMAGE_NAME_AGENT_REPORT=${DOCKERHUB_USERNAME}/${APP_NAME_AGENT_REPORT}:${VERSION}
 APP_IMAGE_NAME_GATEWAY=${DOCKERHUB_USERNAME}/${APP_NAME_AGENT_GATEWAY}:${VERSION}
 
-# TODO: ovo isto zavisi od ENV varijable a ja sam zakucao ovako jer ne mogu da push na njegov docker hub
+
+APP_NAME_AGENT_GATEWAY_HEROKU=agentgateway${NAME}
+
 DOCKER_BUILDKIT=1 docker build \
 -t "${APP_IMAGE_NAME_AGENT_PRODUCT}" \
---target agentProductServiceRuntime \
+--target agentProductServiceRuntimeProd \
 --build-arg STAGE=${STAGE} \
---build-arg DOMAIN=" domain: '${APP_NAME_AGENT_PRODUCT}.herokuapp.com'," \
---build-arg PORT="  port: ''," \
 --no-cache \
 .
 
 DOCKER_BUILDKIT=1 docker build \
 -t "${APP_IMAGE_NAME_AGENT_OREDER}" \
---target agentOrderServiceRuntime \
+--target agentOrderServiceRuntimeProd \
 --build-arg STAGE=${STAGE} \
---build-arg DOMAIN=" domain: '${APP_NAME_AGENT_OREDER}.herokuapp.com'," \
---build-arg PORT="  port: ''," \
 --no-cache \
 .
 
 DOCKER_BUILDKIT=1 docker build \
 -t "${APP_IMAGE_NAME_AGENT_REPORT}" \
---target agentReportServiceRuntime \
+--target agentReportServiceRuntimeProd \
 --build-arg STAGE=${STAGE} \
---build-arg DOMAIN=" domain: '${APP_NAME_AGENT_REPORT}.herokuapp.com'," \
---build-arg PORT="  port: ''," \
 --no-cache \
 .
 
+
 DOCKER_BUILDKIT=1 docker build \
 -t "${APP_IMAGE_NAME_GATEWAY}" \
---target gatewayRuntime \
+--target gatewayRuntimeProd \
 --build-arg STAGE=${STAGE} \
---build-arg DOMAIN=" domain: '${APP_NAME_AGENT_REPORT}.herokuapp.com'," \
---build-arg PORT="  port: ''," \
+--build-arg PROTOCOL="https" \
+--build-arg API="${APP_NAME_AGENT_GATEWAY_HEROKU}.herokuapp.com" \
 --no-cache \
 .
 
@@ -57,4 +55,3 @@ docker push "$APP_IMAGE_NAME_AGENT_PRODUCT"
 docker push "$APP_IMAGE_NAME_AGENT_OREDER"
 docker push "$APP_IMAGE_NAME_AGENT_REPORT"
 docker push "$APP_IMAGE_NAME_GATEWAY"
-
