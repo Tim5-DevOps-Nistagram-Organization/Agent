@@ -12,12 +12,12 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v2
-        - name: Testing 
+        - name: Delete old servers from Heroku staging env
           run: |
             cd deployment || exit
-            echo ${{ github.event.client_payload.message.version }}
-        - name: Delete old servers from Heroku staging env
-          run: ./destroy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.client_payload.message.version }} pgb1 prod
+            ./destroy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.client_payload.message.version }} pgb1 prod
         - name: Deploy to staging env on Heroku
-          run: ./deploy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.inputs.name }} pgb1 prod
+          run: |
+             cd deployment || exit
+            ./deploy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.inputs.name }} pgb1 prod
           
