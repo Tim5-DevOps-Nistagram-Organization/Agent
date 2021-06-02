@@ -62,9 +62,9 @@ function ProductAddEdit({
         <ImageInput
           label={"Image"}
           onChange={onChange}
-          name={"image"}
-          value={form.image}
-          error={errors.image}
+          name={"imageId"}
+          value={form.imageId}
+          error={errors.imageId}
           imageUploaded={imageUploaded}
           onUpload={onUpload}
         />

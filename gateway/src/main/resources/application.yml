@@ -1,9 +1,13 @@
 server:
   port: 8080
-
 spring:
   application:
     name: gateway
+  profiles:
+    active: @profileActive@
+---
+spring:
+  profiles: dev
   cloud:
     gateway:
       discovery:
@@ -30,6 +34,39 @@ spring:
             - RewritePath=/report/(?<path>.*), /$\{path}
         - id: front
           uri: http://localhost:8080
+          predicates:
+            - Path=/
+          filters:
+            - RewritePath=/, /index.html
+---
+spring:
+  profiles: prod
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: order
+          uri: https://agentorder${STAGE}.herokuapp.com
+          predicates:
+            - Path=/order/**
+          filters:
+            - RewritePath=/order/(?<path>.*), /$\{path}
+        - id: product
+          uri: https://agentproduct${STAGE}.herokuapp.com
+          predicates:
+            - Path=/product/**
+          filters:
+            - RewritePath=/product/(?<path>.*), /$\{path}
+        - id: report
+          uri: https://agentreport${STAGE}.herokuapp.com
+          predicates:
+            - Path=/report/**
+          filters:
+            - RewritePath=/report/(?<path>.*), /$\{path}
+        - id: front
+          uri: https://agentgateway${STAGE}.herokuapp.com
           predicates:
             - Path=/
           filters:

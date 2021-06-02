@@ -38,12 +38,20 @@ function ProductList({
     return !cart.some((item) => item.product.id === product.id);
   };
 
+  const baseUrl = process.env.REACT_APP_API_GATEWAY_URL + "product/image/";
   return (
     <div className={classes.root}>
       <GridList cellHeight={180} className={classes.gridList} cols={3}>
         {products.map((product, index) => (
           <GridListTile key={index}>
-            <img src={product.image} alt={product.name} />
+            {product.imageId !== 0 ? (
+              <img src={baseUrl + product.imageId} alt={product.name} />
+            ) : (
+              <img
+                src="https://vcunited.club/wp-content/uploads/2020/01/No-image-available-2.jpg"
+                alt="Not found"
+              />
+            )}
             <GridListTileBar
               title={product.name}
               subtitle={

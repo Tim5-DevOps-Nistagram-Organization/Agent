@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/product")
+@CrossOrigin("*")
 public class ProductController {
 
     private final ProductService productService;
@@ -49,8 +50,8 @@ public class ProductController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity delete(@PathVariable Long id) throws ResourceNotFoundException {
+    public ResponseEntity<String> delete(@PathVariable Long id) throws ResourceNotFoundException {
         productService.deleteProduct(id);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>("Successfully deleted!", HttpStatus.OK);
     }
 }
