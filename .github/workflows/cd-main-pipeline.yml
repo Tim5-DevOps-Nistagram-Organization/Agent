@@ -13,6 +13,7 @@ jobs:
         - uses: actions/checkout@v2
           with:
             ref: main
+        - name: Delete old servers from Heroku staging env
           run: |
             cd deployment || exit
             ./destroy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.client_payload.message.version }} pgb2 prod
