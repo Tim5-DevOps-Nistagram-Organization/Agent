@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import rs.ac.uns.ftn.devops.tim5.agentreport.dto.ErrorMessageDTO;
 
 import java.time.ZonedDateTime;
-import java.util.Objects;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
