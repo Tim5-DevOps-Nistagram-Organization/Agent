@@ -9,7 +9,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductManagement from "./product/ProductManagement";
 
-const a = () => process.env.REACT_APP_API_GATEWAY_URL;
 function App() {
   return (
     <div className="App">

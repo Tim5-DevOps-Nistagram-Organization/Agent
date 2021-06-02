@@ -26,7 +26,7 @@ public class Product {
 
     private Boolean deleted;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Image image;
 }
