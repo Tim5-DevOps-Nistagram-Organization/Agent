@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-    apiCallsInProgress: 0,
-    isAgent: false
+  isAgent: false,
+  cart: [],
 };

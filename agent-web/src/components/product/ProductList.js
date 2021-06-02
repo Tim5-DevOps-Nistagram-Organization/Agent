@@ -28,11 +28,16 @@ const useStyles = makeStyles((theme) => ({
 function ProductList({
   products,
   isAgent,
+  cart,
   onEditButton,
   onDeleteButton,
   onAddToCart,
 }) {
   const classes = useStyles();
+  const notInCart = (product) => {
+    return !cart.some((item) => item.product.id === product.id);
+  };
+
   const baseUrl = process.env.REACT_APP_API_GATEWAY_URL + "product/image/";
   return (
     <div className={classes.root}>
@@ -79,13 +84,16 @@ function ProductList({
                     </IconButton>
                   </>
                 ) : (
-                  <IconButton
-                    onClick={() => onAddToCart(product)}
-                    aria-label={`info about ${product.name}`}
-                    className={classes.icon}
-                  >
-                    <AddShoppingCartIcon />
-                  </IconButton>
+                  product.onStock > 0 &&
+                  notInCart(product) && (
+                    <IconButton
+                      onClick={() => onAddToCart(product)}
+                      aria-label={`info about ${product.name}`}
+                      className={classes.icon}
+                    >
+                      <AddShoppingCartIcon />
+                    </IconButton>
+                  )
                 )
               }
             />
@@ -99,6 +107,7 @@ function ProductList({
 ProductList.propTypes = {
   products: PropTypes.arrayOf(object).isRequired,
   isAgent: PropTypes.bool.isRequired,
+  cart: PropTypes.array.isRequired,
   onEditButton: PropTypes.func.isRequired,
   onDeleteButton: PropTypes.func.isRequired,
   onAddToCart: PropTypes.func.isRequired,
