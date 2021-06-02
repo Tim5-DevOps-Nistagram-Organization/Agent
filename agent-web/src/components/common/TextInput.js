@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+import PropTypes, { number, string } from "prop-types";
 import { TextField } from "@material-ui/core";
 
 const TextInput = ({
@@ -42,7 +42,7 @@ TextInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   type: PropTypes.string,
   placeholder: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([string, number]),
   error: PropTypes.string,
 };
 
