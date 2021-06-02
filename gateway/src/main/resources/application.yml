@@ -48,25 +48,25 @@ spring:
           enabled: true
       routes:
         - id: order
-          uri: https://agentorder.herokuapp.com
+          uri: https://agentorder${STAGE}.herokuapp.com
           predicates:
             - Path=/order/**
           filters:
             - RewritePath=/order/(?<path>.*), /$\{path}
         - id: product
-          uri: https://agentproduct.herokuapp.com
+          uri: https://agentproduct${STAGE}.herokuapp.com
           predicates:
             - Path=/product/**
           filters:
             - RewritePath=/product/(?<path>.*), /$\{path}
         - id: report
-          uri: https://agentreport.herokuapp.com
+          uri: https://agentreport${STAGE}.herokuapp.com
           predicates:
             - Path=/report/**
           filters:
             - RewritePath=/report/(?<path>.*), /$\{path}
         - id: front
-          uri: https://agentgateway.herokuapp.com
+          uri: https://agentgateway${STAGE}.herokuapp.com
           predicates:
             - Path=/
           filters:

@@ -2,8 +2,7 @@ name: CD-main-pipeline
 
 on:
   workflow_dispatch:
-    
-  
+
   repository_dispatch:
     types: [ci_main_pipeline_done]
   
@@ -12,12 +11,14 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v2
+          with:
+            ref: main
         - name: Delete old servers from Heroku staging env
           run: |
             cd deployment || exit
-            ./destroy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.client_payload.message.version }} pgb1 prod
+            ./destroy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.client_payload.message.version }} pgb2 prod
         - name: Deploy to staging env on Heroku
           run: |
-             cd deployment || exit
-            ./deploy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.inputs.name }} pgb1 prod
+            cd deployment || exit
+            ./deploy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.client_payload.message.version }} pgb2 prod
           
