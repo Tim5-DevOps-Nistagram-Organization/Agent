@@ -16,7 +16,7 @@ function App() {
         <GuardedRoute
           exact
           path="/"
-          component={() => <h1>Home</h1>}
+          component={() => <h1> {process.env.REACT_APP_API_GATEWAY_URL}</h1>}
           redirect="/login"
         />
         <GuardedRoute
