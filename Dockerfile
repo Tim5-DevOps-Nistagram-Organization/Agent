@@ -122,10 +122,8 @@ CMD java -jar agent-report.jar
 ## =================> STAGES for FrontEnd <=====================
 FROM node:13.12.0-alpine as frontEndBuild
 
-ARG PROTOCOL="  protocol: 'https',"
-ARG DOMAIN="  domain: 'localhost',"
-ARG PORT="  port: '8080',"
-ARG API="  api: '/api/server'"
+ARG PROTOCOL="http"
+ARG API="localhost:8080"
 
 # set working directory
 WORKDIR /usr/src
@@ -137,17 +135,16 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY ./agent-web/package.json ./
 COPY ./agent-web/package-lock.json ./
 RUN npm install
-
 # add app
 COPY ./agent-web/ ./
-RUN npm run build --prod
+# change API GATEWAY .env
+RUN sed -i "s/REACT_APP_API_GATEWAY_URL=.*/REACT_APP_API_GATEWAY_URL=${PROTOCOL}:\/\/${API}\//" .env && \
+    cat .env && \
+    npm run build --prod
 
 ## run React tests
 FROM node:13.12.0-alpine as frontEndTest
-ARG PROTOCOL="  protocol: 'http',"
-ARG DOMAIN="  domain: 'localhost',"
-ARG PORT="  port: '8080',"
-ARG API="  api: '/api/server'"
+ARG API="http://localhost:8080/"
 WORKDIR /usr/src
 ENV PATH /app/node_modules/.bin:$PATH
 COPY ./agent-web/package.json ./
@@ -160,12 +157,13 @@ COPY ./agent-web/ ./
 ## =================> STAGES for Gateway <=======================
 FROM maven:3.6.3-ibmjava-8-alpine  AS gatewayBuild
 ARG STAGE=dev
+ARG NAME=staging
 WORKDIR /usr/src/server
 COPY ./gateway .
 COPY --from=frontEndBuild /usr/src/build/index.html ./src/main/resources/
 COPY --from=frontEndBuild /usr/src/build/asset-manifest.json ./src/main/resources/
 COPY --from=frontEndBuild /usr/src/build/ ./src/main/resources/static
-RUN mvn package -P${STAGE} -DskipTests 
+RUN mvn package -P${STAGE} -DsuffixAppUrl=${NAME} -DskipTests 
 
 
 FROM openjdk:8-jdk-alpine AS gatewayRuntimeDev

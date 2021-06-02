@@ -21,10 +21,11 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
-    public ResponseEntity<String> handleBadRequest(MethodArgumentNotValidException e) {
+    public ResponseEntity<ErrorMessageDTO> handleBadRequest(MethodArgumentNotValidException e) {
         String message = Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage();
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
-        return new ResponseEntity<>(message, badRequest);
+        ErrorMessageDTO errorMessageDTO = new ErrorMessageDTO(message, badRequest, ZonedDateTime.now());
+        return new ResponseEntity<>(errorMessageDTO, badRequest);
     }
 
     @ExceptionHandler(value = {ResourceNotFoundException.class})

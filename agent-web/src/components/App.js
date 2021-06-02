@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductManagement from "./product/ProductManagement";
 import ReportManagement from "./report/ReportManagment";
+import CartManagement from "./cart/CartManagement";
 
 function App() {
   return (
@@ -20,6 +21,13 @@ function App() {
           path="/"
           component={ProductManagement}
           redirect="/login"
+        />
+        <GuardedRoute
+          exact
+          path="/cart"
+          itIsAgent={false}
+          component={CartManagement}
+          redirect="/"
         />
         <GuardedRoute
           exact

@@ -9,7 +9,7 @@ export function logout() {
 }
 
 export function checkUserIsAgentSuccess(isAgent) {
-  return { type: types.CHECK_USER_IS_AGENT_SUCCESS, isAgent };
+  return { type: types.CHECK_USER_IS_AGENT, isAgent };
 }
 
 export function login(data) {

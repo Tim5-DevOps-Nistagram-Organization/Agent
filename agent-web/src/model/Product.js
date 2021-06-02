@@ -3,15 +3,15 @@ export class Product {
   name;
   price;
   onStock;
-  image;
+  imageId;
 
-  constructor(id, name, price, onStock, image) {
+  constructor(id, name, price, onStock, imageId) {
     this.id = id;
     this.name = name;
     this.price = price;
     this.onStock = onStock;
-    this.image = image;
+    this.imageId = imageId;
   }
 }
 
-export const newProduct = () => new Product(null, "", 0, 0, "");
+export const newProduct = () => new Product(null, "", 0, 0, 0);

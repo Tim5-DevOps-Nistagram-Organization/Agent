@@ -4,6 +4,7 @@ STAGE=${1}
 VERSION=${2}
 DOCKERHUB_PASSWORD=${3}
 DOCKERHUB_USERNAME=${4:-dusanbucan}
+NAME=${5:-staging}
 
 APP_NAME_AGENT_PRODUCT=agentproduct
 APP_NAME_AGENT_OREDER=agentorder
@@ -14,6 +15,9 @@ APP_IMAGE_NAME_AGENT_PRODUCT=${DOCKERHUB_USERNAME}/${APP_NAME_AGENT_PRODUCT}:${V
 APP_IMAGE_NAME_AGENT_OREDER=${DOCKERHUB_USERNAME}/${APP_NAME_AGENT_OREDER}:${VERSION}
 APP_IMAGE_NAME_AGENT_REPORT=${DOCKERHUB_USERNAME}/${APP_NAME_AGENT_REPORT}:${VERSION}
 APP_IMAGE_NAME_GATEWAY=${DOCKERHUB_USERNAME}/${APP_NAME_AGENT_GATEWAY}:${VERSION}
+
+
+APP_NAME_AGENT_GATEWAY_HEROKU=agentgateway${NAME}
 
 DOCKER_BUILDKIT=1 docker build \
 -t "${APP_IMAGE_NAME_AGENT_PRODUCT}" \
@@ -36,12 +40,14 @@ DOCKER_BUILDKIT=1 docker build \
 --no-cache \
 .
 
+
 DOCKER_BUILDKIT=1 docker build \
 -t "${APP_IMAGE_NAME_GATEWAY}" \
 --target gatewayRuntimeProd \
 --build-arg STAGE=${STAGE} \
---build-arg DOMAIN=" domain: '${APP_IMAGE_NAME_GATEWAY}.herokuapp.com'," \
---build-arg PORT="  port: ''," \
+--build-arg NAME=${NAME} \
+--build-arg PROTOCOL="https" \
+--build-arg API="${APP_NAME_AGENT_GATEWAY_HEROKU}.herokuapp.com" \
 --no-cache \
 .
 
