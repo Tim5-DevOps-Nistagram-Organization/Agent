@@ -64,3 +64,7 @@ terraform apply -auto-approve -var product_app_name="$APP_NAME_AGENT_PRODUCT" \
                               -var order_app_name="$APP_NAME_AGENT_OREDER"   \
                               -var report_app_name="$APP_NAME_AGENT_REPORT" \
                               -var gateway_app_name="$APP_NAME_AGENT_GATEWAY"
+
+
+## provera da li su svi resurs diployovani
+

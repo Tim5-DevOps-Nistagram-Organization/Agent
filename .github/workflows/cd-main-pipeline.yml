@@ -2,8 +2,7 @@ name: CD-main-pipeline
 
 on:
   workflow_dispatch:
-    
-  
+
   repository_dispatch:
     types: [ci_main_pipeline_done]
   
@@ -14,12 +13,6 @@ jobs:
         - uses: actions/checkout@v2
           with:
             ref: main
-        - name: Testing 
-          run: |
-            cd deployment || exit
-            echo ${{ github.event.client_payload.message.version }}
-            ls
-        - name: Delete old servers from Heroku staging env
           run: |
             cd deployment || exit
             ./destroy.sh mica97@email.com ${{secrets.HEROKU_PROD_TOKEN}} ${{ github.event.client_payload.message.version }} pgb2 prod
