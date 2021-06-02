@@ -27,14 +27,10 @@ function ProductManagement({ isAgent, cart, cartAddItem }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    getAll();
-  }, []);
-
-  function getAll() {
     productService.getAll().then((data) => {
       setProducts(data);
     });
-  }
+  }, []);
 
   function handleAddButton() {
     setProduct(newProduct);
@@ -58,7 +54,7 @@ function ProductManagement({ isAgent, cart, cartAddItem }) {
     setItem(new Item(product, 1));
     setOpenAddToCart(true);
   }
-  
+
   function handleChange(event) {
     const { name, value, files } = event.target;
     if (name === "imageId") {
@@ -133,21 +129,21 @@ function ProductManagement({ isAgent, cart, cartAddItem }) {
   function handleDelete() {
     setSaving(true);
     productService
-    .deleteById(product.id)
-    .then((data) => {
-      toast.success(data);
-      let newValue = [...products];
-      newValue = newValue.filter((p) => product.id !== p.id);
-      setProducts(newValue);
-      setSaving(false);
-      setOpenDelete(false);
-    })
-    .catch((err) => {
-      toast.error(JSON.parse(err.message).message);
-      setSaving(false);
-      setOpenDelete(false);
-    });
-}
+      .deleteById(product.id)
+      .then((data) => {
+        toast.success(data);
+        let newValue = [...products];
+        newValue = newValue.filter((p) => product.id !== p.id);
+        setProducts(newValue);
+        setSaving(false);
+        setOpenDelete(false);
+      })
+      .catch((err) => {
+        toast.error(JSON.parse(err.message).message);
+        setSaving(false);
+        setOpenDelete(false);
+      });
+  }
 
   function handleChangeItem(event) {
     const { name, value } = event.target;
@@ -168,7 +164,7 @@ function ProductManagement({ isAgent, cart, cartAddItem }) {
     cartAddItem(item);
     setOpenAddToCart(false);
   }
-   
+
   function handleUpload() {
     imageService
       .upload(image)

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ReportTabs from "./ReportTabs";
 import ReportGraph from "./ReportGraph";
+import * as reportService from "../../services/ReportService";
+import { toast } from "react-toastify";
 
 function ReportManagement() {
   const [tab, setTab] = useState(0);
@@ -9,15 +11,33 @@ function ReportManagement() {
 
   useEffect(() => {
     if (tab === 0) {
-      setData([
-        { x: "a", y: 2 },
-        { x: "b", y: 5 },
-        { x: "c", y: 8 },
-        { x: "d", y: 5 },
-        { x: "e", y: 7 },
-        { x: "f", y: 5 },
-      ]);
+      reportService
+        .getSold()
+        .then((response) => {
+          const newData = [];
+          for (let item of response) {
+            newData.push({
+              x: item.productId + " " + item.productName,
+              y: item.sold,
+            });
+          }
+          setData(newData);
+        })
+        .catch((err) => toast.error(JSON.parse(err.message).message));
     } else if (tab === 1) {
+      reportService
+        .getEarned()
+        .then((response) => {
+          const newData = [];
+          for (let item of response) {
+            newData.push({
+              x: item.productId + " " + item.productName,
+              y: item.earned,
+            });
+          }
+          setData(newData);
+        })
+        .catch((err) => toast.error(JSON.parse(err.message).message));
       setData([
         { x: "a", y: 123.2 },
         { x: "b", y: 124 },
