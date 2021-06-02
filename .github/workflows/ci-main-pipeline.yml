@@ -36,7 +36,7 @@ jobs:
             body: ${{ steps.tag_version.outputs.changelog }}
 
         - name: Build docker image
-          run: ./buildImage.sh "prod" ${{ steps.tag_version.outputs.new_tag }} ${{ secrets.DOCKERHUB_PASSWORD }} ${{ secrets.DOCKERHUB_USERNAME }}
+          run: ./buildImage.sh "prod" ${{ steps.tag_version.outputs.new_tag }} ${{ secrets.DOCKERHUB_PASSWORD }} ${{ secrets.DOCKERHUB_USERNAME }} prod
 
       
         # pokreni CD pipeline na prod-env
