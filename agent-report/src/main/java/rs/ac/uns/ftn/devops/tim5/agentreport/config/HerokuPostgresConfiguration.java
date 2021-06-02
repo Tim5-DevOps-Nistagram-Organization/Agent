@@ -1,8 +1,9 @@
 package rs.ac.uns.ftn.devops.tim5.agentreport.config;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,10 +29,14 @@ public class HerokuPostgresConfiguration {
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
 
-        return DataSourceBuilder.create()
-                .url(dbUrl)
-                .username(username)
-                .password(password)
-                .build();
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(dbUrl);
+        config.setUsername(username);
+        config.setPassword(password);
+        // because Heroku postgres in free tier accepts 20 connection in total
+        config.setMaximumPoolSize(5);
+
+        HikariDataSource ds = new HikariDataSource(config);
+        return ds;
     }
 }
