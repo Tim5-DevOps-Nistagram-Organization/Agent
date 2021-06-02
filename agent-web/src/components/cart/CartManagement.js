@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { cartRemoveItem, cartEmpty } from "../../redux/actions/cartActions";
 import CartList from "./CartList";
-import { newOrderRequest, OrderResponse } from "../../model/Order";
+import { newOrderRequest } from "../../model/Order";
 import CartForm from "./CartForm";
-import { ItemRequest, ItemResponse } from "../../model/Item";
+import { ItemRequest } from "../../model/Item";
 import ShowOrder from "./ShowOrder";
+import * as orderService from "../../services/OrderService";
 
 function CartManagement({ cart, cartRemoveItem, cartEmpty }) {
   const [order, setOrder] = useState(newOrderRequest);
@@ -34,42 +35,31 @@ function CartManagement({ cart, cartRemoveItem, cartEmpty }) {
   function handleSubmit() {
     if (!formIsValid()) return;
     setSaving(true);
-    console.log("create order");
     const items = [];
-    const itemsOrdered = [];
-    let sum = 0;
     for (const item of cart) {
       items.push(new ItemRequest(item.product.id, item.quantity));
-      itemsOrdered.push(
-        new ItemResponse(
-          item.product.name,
-          item.product.price * item.quantity,
-          item.quantity
-        )
-      );
-      console.log(itemsOrdered);
-      sum += item.product.price * item.quantity;
     }
-    setOrder((prevValue) => ({ ...prevValue, items }));
-    setSaving(false);
-    cartEmpty();
-    // error onSubmit
-    setOrdered(
-      new OrderResponse(
-        order.customerName,
-        order.customerSurname,
-        order.customerAddress,
-        sum,
-        itemsOrdered
-      )
-    );
+
+    const request = { ...order };
+    request.items = items;
+
+    orderService
+      .create(request)
+      .then((data) => {
+        setSaving(false);
+        cartEmpty();
+        setOrdered(data);
+      })
+      .catch((err) => {
+        setErrors({ onSubmit: JSON.parse(err.message).message });
+        setSaving(false);
+      });
   }
 
   return (
     <div style={{ width: "80%", marginLeft: "10%" }}>
       {cart.length > 0 ? (
         <>
-          {ordered !== null ? "cao" : "mrs"}
           <h2>Cart</h2>
           <CartList
             onEmptyCart={() => cartEmpty()}
