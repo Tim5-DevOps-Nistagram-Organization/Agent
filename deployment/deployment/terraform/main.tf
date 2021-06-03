@@ -34,7 +34,6 @@ variable "gateway_suffix" {
 # da bi ucitao jdbc za za add-on za bazu 
 resource "heroku_config" "prod" {
   vars = {
-
     STAGE = "PROD"
     GATEWAY_SUFFIX = var.gateway_suffix
   }
