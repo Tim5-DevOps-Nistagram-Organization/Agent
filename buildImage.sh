@@ -45,7 +45,6 @@ DOCKER_BUILDKIT=1 docker build \
 -t "${APP_IMAGE_NAME_GATEWAY}" \
 --target gatewayRuntimeProd \
 --build-arg STAGE=${STAGE} \
---build-arg NAME=${NAME} \
 --build-arg PROTOCOL="https" \
 --build-arg API="${APP_NAME_AGENT_GATEWAY_HEROKU}.herokuapp.com" \
 --no-cache \

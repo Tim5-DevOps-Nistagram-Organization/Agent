@@ -157,13 +157,12 @@ COPY ./agent-web/ ./
 ## =================> STAGES for Gateway <=======================
 FROM maven:3.6.3-ibmjava-8-alpine  AS gatewayBuild
 ARG STAGE=dev
-ARG NAME=staging
 WORKDIR /usr/src/server
 COPY ./gateway .
 COPY --from=frontEndBuild /usr/src/build/index.html ./src/main/resources/
 COPY --from=frontEndBuild /usr/src/build/asset-manifest.json ./src/main/resources/
 COPY --from=frontEndBuild /usr/src/build/ ./src/main/resources/static
-RUN mvn package -P${STAGE} -DsuffixAppUrl=${NAME} -DskipTests 
+RUN mvn package -P${STAGE} -DskipTests 
 
 
 FROM openjdk:8-jdk-alpine AS gatewayRuntimeDev
