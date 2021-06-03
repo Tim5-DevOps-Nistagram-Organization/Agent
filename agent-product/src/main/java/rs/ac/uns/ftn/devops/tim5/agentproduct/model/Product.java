@@ -45,4 +45,9 @@ public class Product {
                         product.getImage() == null ? null : product.getImage().getId());
 
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price, onStock, deleted, image);
+    }
 }
