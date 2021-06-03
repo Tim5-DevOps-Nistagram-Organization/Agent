@@ -32,11 +32,6 @@ public class ProductController {
                 HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<ProductDTO> getById(@PathVariable Long id) throws ResourceNotFoundException {
-        return new ResponseEntity<>(ProductMapper.toDTO(productService.getProduct(id)), HttpStatus.OK);
-    }
-
     @PostMapping
     public ResponseEntity<ProductDTO> create(@Valid @RequestBody ProductDTO productDTO) throws ResourceNotFoundException {
         return new ResponseEntity<>(
