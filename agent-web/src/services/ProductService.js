@@ -14,13 +14,6 @@ export function getAll() {
     .catch(handleError);
 }
 
-export function get(id) {
-  const headers = createHeaders();
-  return fetch(baseUrl + "/" + id, { method: "GET", headers })
-    .then(handleResponse)
-    .catch(handleError);
-}
-
 export function create(product) {
   const headers = createHeaders();
   return fetch(baseUrl, {
