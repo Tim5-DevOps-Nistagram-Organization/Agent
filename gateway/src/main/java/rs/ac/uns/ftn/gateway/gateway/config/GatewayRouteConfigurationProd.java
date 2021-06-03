@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.gateway.gateway.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
@@ -15,11 +16,13 @@ import org.springframework.context.annotation.Profile;
 )
 public class GatewayRouteConfigurationProd {
 
+    @Value("${GATEWAY_SUFFIX}")
+    private String suffixAppUrl;
+
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-
-        String suffixAppUrl = System.getProperty("GATEWAY_SUFFIX");
-        //TODO: obrisati print
+        
+        //@TODO: obrisati print
         System.out.println("UCITAN GATEWAY_SUFFIX: " + suffixAppUrl);
 
         return builder.routes()
