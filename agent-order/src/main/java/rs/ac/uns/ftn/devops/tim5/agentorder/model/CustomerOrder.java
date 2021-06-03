@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -37,4 +38,20 @@ public class CustomerOrder {
         this.items = items;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CustomerOrder order = (CustomerOrder) o;
+        return Objects.equals(id, order.id) &&
+                Objects.equals(customerName, order.customerName) &&
+                Objects.equals(customerSurname, order.customerSurname) &&
+                Objects.equals(customerAddress, order.customerAddress) &&
+                Objects.equals(totalPrice, order.totalPrice);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, customerName, customerSurname, customerAddress, totalPrice, items);
+    }
 }
