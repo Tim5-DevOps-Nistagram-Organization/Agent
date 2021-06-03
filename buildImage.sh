@@ -50,6 +50,16 @@ DOCKER_BUILDKIT=1 docker build \
 --no-cache \
 .
 
+
+## copy build .jar to machine and to add to artifact repository
+docker cp $APP_IMAGE_NAME_AGENT_PRODUCT:/agent-product.jar agent-product:${VERSION}.jar
+docker cp $APP_IMAGE_NAME_AGENT_OREDER:/agent-order.jar agent-order:${VERSION}.jar
+docker cp $APP_IMAGE_NAME_AGENT_REPORT:/agent-report.jar agent-report:${VERSION}.jar
+docker cp $APP_IMAGE_NAME_AGENT_PRODUCT:/gateway.jar gateway:${VERSION}.jar
+
+
+
+
 docker login --username ${DOCKERHUB_USERNAME} --password=${DOCKERHUB_PASSWORD}
 docker push "$APP_IMAGE_NAME_AGENT_PRODUCT"
 docker push "$APP_IMAGE_NAME_AGENT_OREDER"

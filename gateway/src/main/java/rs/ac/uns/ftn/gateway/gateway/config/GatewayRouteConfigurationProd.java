@@ -21,8 +21,7 @@ public class GatewayRouteConfigurationProd {
 
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-        
-        //@TODO: obrisati print
+ 
         System.out.println("UCITAN GATEWAY_SUFFIX: " + suffixAppUrl);
 
         return builder.routes()
