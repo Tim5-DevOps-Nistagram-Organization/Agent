@@ -24,12 +24,18 @@ variable "gateway_app_name" {
   description = "Unique name of the gateway service app"
 }
 
+variable "gateway_suffix" {
+  description = "suffix to add in URLs for app route "
+  default = "staging"
+}
+
 # ovo koristi kako bi podesio sistemsku varijablu u dyno
 # tu sistemsku varijblu je koristio da aktivira konfiguracionu klasu u springu
 # da bi ucitao jdbc za za add-on za bazu 
 resource "heroku_config" "prod" {
   vars = {
     STAGE = "PROD"
+    GATEWAY_SUFFIX = var.gateway_suffix
   }
 
 }

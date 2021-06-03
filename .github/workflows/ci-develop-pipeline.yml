@@ -28,6 +28,7 @@ jobs:
 
         - name: Create a GitHub prerelease
           uses: actions/create-release@v1
+          id: create_release
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
@@ -38,7 +39,6 @@ jobs:
 
         - name: Build docker image
           run: ./buildImage.sh "prod" ${{ steps.tag_version.outputs.new_tag }} ${{ secrets.DOCKERHUB_PASSWORD }} ${{ secrets.DOCKERHUB_USERNAME }}
-
       
         # pokreni CD pipeline na test-env
         - name: Emit repository_dispatch

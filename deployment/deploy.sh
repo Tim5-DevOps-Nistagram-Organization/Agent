@@ -43,6 +43,7 @@ DOCKER_BUILDKIT=1 docker create \
   --env HEROKU_API_KEY="${HEROKU_API_KEY}" \
   --env HEROKU_EMAIL="${HEROKU_EMAIL}" \
   --env TERRAFORM_PG_BACKEND="${TERRAFORM_PG_BACKEND}" \
+  --env API_GATEWAY_SUFFIX="${NAME}" \
   --name "$CONTAINER_NAME" \
   danijelradakovic/heroku-terraform \
   installBash.sh

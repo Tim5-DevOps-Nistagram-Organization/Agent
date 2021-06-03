@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/product")
+@CrossOrigin("*")
 public class ProductController {
 
     private final ProductService productService;
@@ -31,11 +32,6 @@ public class ProductController {
                 HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<ProductDTO> getById(@PathVariable Long id) throws ResourceNotFoundException {
-        return new ResponseEntity<>(ProductMapper.toDTO(productService.getProduct(id)), HttpStatus.OK);
-    }
-
     @PostMapping
     public ResponseEntity<ProductDTO> create(@Valid @RequestBody ProductDTO productDTO) throws ResourceNotFoundException {
         return new ResponseEntity<>(
@@ -49,8 +45,8 @@ public class ProductController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) throws ResourceNotFoundException {
+    public ResponseEntity<String> delete(@PathVariable Long id) throws ResourceNotFoundException {
         productService.deleteProduct(id);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>("Successfully deleted!", HttpStatus.OK);
     }
 }
