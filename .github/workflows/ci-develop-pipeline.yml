@@ -39,9 +39,6 @@ jobs:
 
         - name: Build docker image
           run: ./buildImage.sh "prod" ${{ steps.tag_version.outputs.new_tag }} ${{ secrets.DOCKERHUB_PASSWORD }} ${{ secrets.DOCKERHUB_USERNAME }}
-
-        - name: list created .jar
-          run: ls -la 
       
         # pokreni CD pipeline na test-env
         - name: Emit repository_dispatch
