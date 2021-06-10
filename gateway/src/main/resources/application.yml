@@ -5,6 +5,16 @@ spring:
     name: gateway
   profiles:
     active: @profileActive@
+
+# metrike za prometheus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
 ---
 spring:
   profiles: dev
