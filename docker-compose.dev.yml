@@ -2,7 +2,7 @@ version: "3.8"
 services:
     database:
       image: postgres:${POSTGRES_VERSION-13}
-      container_name: postgres
+      container_name: postgres_agent
       restart: always
       environment:
         POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -20,7 +20,7 @@ services:
         - consul-server
 
     consul-server:
-      image: consul-server
+      image: consul-server-agent
       build:
         context: .
         dockerfile: Dockerfile
@@ -107,67 +107,67 @@ services:
         - static-network
 
   # ===================>> monitoring services <<======================
-    prometheus:
-      image: prom/prometheus:latest
-      container_name: prometheus
-      ports:
-        - 9090:9090
-      command:
-        - --config.file=/etc/prometheus/prometheus.yml
-      volumes:
-        - ./monitoring/prometheus/:/etc/prometheus/
-      networks:
-        - static-network
-      depends_on:
-        - cadvisor
-        - node-exporter
+    # prometheus:
+    #   image: prom/prometheus:latest
+    #   container_name: prometheus
+    #   ports:
+    #     - 9090:9090
+    #   command:
+    #     - --config.file=/etc/prometheus/prometheus.yml
+    #   volumes:
+    #     - ./monitoring/prometheus/:/etc/prometheus/
+    #   networks:
+    #     - static-network
+    #   depends_on:
+    #     - cadvisor
+    #     - node-exporter
 
-    # monitor Linux machine
-    node-exporter:
-      image: prom/node-exporter:v1.1.2
-      container_name: node-exporter
-      networks:
-        - static-network
-      ports:
-        - 9100:9100
-      depends_on:
-        - cadvisor
+    # # monitor Linux machine
+    # node-exporter:
+    #   image: prom/node-exporter:v1.1.2
+    #   container_name: node-exporter
+    #   networks:
+    #     - static-network
+    #   ports:
+    #     - 9100:9100
+    #   depends_on:
+    #     - cadvisor
 
-    # monitor containers
-    cadvisor:
-      image: gcr.io/cadvisor/cadvisor:latest
-      container_name: cadvisor
-      ports:
-        - 8081:8080
-      volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-      networks:
-        - static-network
-      depends_on:
-        - agent-report-service
-        - agent-product-service
-        - agent-order-service
+    # # monitor containers
+    # cadvisor:
+    #   image: gcr.io/cadvisor/cadvisor:latest
+    #   container_name: cadvisor
+    #   ports:
+    #     - 8081:8080
+    #   volumes:
+    #   - /:/rootfs:ro
+    #   - /var/run:/var/run:rw
+    #   - /sys:/sys:ro
+    #   - /var/lib/docker/:/var/lib/docker:ro
+    #   networks:
+    #     - static-network
+    #   depends_on:
+    #     - agent-report-service
+    #     - agent-product-service
+    #     - agent-order-service
 
-    # visualise monitoring
-    grafana:
-      image: grafana/grafana:7.5.2
-      container_name: grafana
-      restart: on-failure
-      environment:
-        - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
-      networks:
-        - static-network
-      ports:
-        - 3000:3000
-      volumes:
-        - ./monitoring/grafana/provision/datasources:/etc/grafana/provisioning/datasources
-        - ./monitoring/grafana/provision/dashboards:/etc/grafana/provisioning/dashboards
-        - ./monitoring/grafana/data:/var/lib/grafana
-      depends_on:
-        - prometheus
+    # # visualise monitoring
+    # grafana:
+    #   image: grafana/grafana:7.5.2
+    #   container_name: grafana
+    #   restart: on-failure
+    #   environment:
+    #     - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    #   networks:
+    #     - static-network
+    #   ports:
+    #     - 3000:3000
+    #   volumes:
+    #     - ./monitoring/grafana/provision/datasources:/etc/grafana/provisioning/datasources
+    #     - ./monitoring/grafana/provision/dashboards:/etc/grafana/provisioning/dashboards
+    #     - ./monitoring/grafana/data:/var/lib/grafana
+    #   depends_on:
+    #     - prometheus
 
 volumes:
   database-data:

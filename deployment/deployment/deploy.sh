@@ -16,14 +16,14 @@ ALL_HEROKU_APPS=$(heroku apps) && export ALL_HEROKU_APPS
 echo $ALL_HEROKU_APPS
 echo $TERRAFORM_PG_BACKEND
 
-if [[ $ALL_HEROKU_APPS =~ "$TERRAFORM_PG_BACKEND" ]]; 
-then
-  echo "It's there!"
-else 
-  echo "It's no there!"
-  heroku create $TERRAFORM_PG_BACKEND
-  heroku addons:create heroku-postgresql:hobby-dev --app $TERRAFORM_PG_BACKEND
-fi
+# if [[ $ALL_HEROKU_APPS =~ "$TERRAFORM_PG_BACKEND" ]]; 
+# then
+#   echo "It's there!"
+# else 
+#   echo "It's no there!"
+heroku create $TERRAFORM_PG_BACKEND
+heroku addons:create heroku-postgresql:hobby-dev --app $TERRAFORM_PG_BACKEND
+# fi
 
 
 cd terraform || exit
