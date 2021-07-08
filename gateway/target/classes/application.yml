@@ -1,0 +1,131 @@
+server:
+  port: 8080
+  # da bi se videle metrike tomcat-a
+  tomcat:
+    mbeanregistry:
+      enabled: true
+spring:
+  application:
+    name: gateway
+  profiles:
+    active: dev
+
+# metrike za prometheus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    enable:
+      all: true
+---
+
+spring:
+  profiles: dev
+  datasource:
+    username:  ${DATABASE_USERNAME:root}
+    password: ${DATABASE_PASSWORD:password}
+    url: jdbc:postgresql://${DATABASE_DOMAIN:database}:${DATABASE_PORT:5432}/${DATABASE_SCHEMA:gateway}
+    platform: postgres
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      metrics:
+        enabled: true
+#      routes:
+#        - id: order
+#          uri: lb://order
+#          predicates:
+#            - Path=/order/**
+#          filters:
+#            - RewritePath=/order/(?<path>.*), /$\{path}
+#        - id: product
+#          uri: lb://product
+#          predicates:
+#            - Path=/product/**
+#          filters:
+#            - RewritePath=/product/(?<path>.*), /$\{path}
+#        - id: report
+#          uri: lb://report
+#          predicates:
+#            - Path=/report/**
+#          filters:
+#            - RewritePath=/report/(?<path>.*), /$\{path}
+#        - id: front
+#          uri: http://localhost:8080
+#          predicates:
+#            - Path=/
+#          filters:
+#            - RewritePath=/, /index.html
+
+# nzm da li ovo treba ovde uopste
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
+    accesslog:
+      enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    enable:
+      all: true
+
+---
+spring:
+  profiles: prod
+  datasource:
+    username: ${DATABASE_USERNAME:root}
+    password: ${DATABASE_PASSWORD:password}
+    url: jdbc:postgresql://${DATABASE_DOMAIN:database}:${DATABASE_PORT:5432}/${DATABASE_SCHEMA:gateway}
+    platform: postgres
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+#      routes:
+#        - id: order
+#          uri: https://agentorder${suffixAppUrl}.herokuapp.com
+#          predicates:
+#            - Path=/order/**
+#          filters:
+#            - RewritePath=/order/(?<path>.*), /$\{path}
+#        - id: product
+#          uri: https://agentproduct${suffixAppUrl}.herokuapp.com
+#          predicates:
+#            - Path=/product/**
+#          filters:
+#            - RewritePath=/product/(?<path>.*), /$\{path}
+#        - id: report
+#          uri: https://agentreport${suffixAppUrl}.herokuapp.com
+#          predicates:
+#            - Path=/report/**
+#          filters:
+#            - RewritePath=/report/(?<path>.*), /$\{path}
+#        - id: front
+#          uri: https://agentgateway${suffixAppUrl}.herokuapp.com
+#          predicates:
+#            - Path=/
+#          filters:
+#            - RewritePath=/, /index.html
