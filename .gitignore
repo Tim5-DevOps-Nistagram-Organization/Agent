@@ -2,3 +2,7 @@
 agent-web/.idea/*
 
 agent-web/node_modules/
+
+monitoring/grafana/data/png/
+monitoring/grafana/data/plugins/
+monitoring/grafana/data/grafana.db

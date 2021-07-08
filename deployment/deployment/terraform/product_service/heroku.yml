@@ -3,4 +3,4 @@ build:
     web: Dockerfile
 
 run: 
-  web: java -jar agent-product.jar --server.port=$PORT
+  web: java -Xms256m -Xmx256m -Xss512k -jar agent-product.jar --server.port=$PORT 
